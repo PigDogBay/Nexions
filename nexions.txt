@@ -74,6 +74,9 @@ ENDPROC
 DEFPROC sTitle()
 PROC initGraphics()
 LOAD "title.sl2" LAYER 
+FOR i=0 TO 10
+BEEP .1,-10 + i:BEEP .1,-20 + i:BEEP .1,-30 + i
+NEXT i
 ENDPROC
 
 #; Title screen
