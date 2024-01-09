@@ -32,7 +32,7 @@
 #; lives - Current number of lives 
 #; score - Current score
 #; high - High score
-#; timer - Last value of TIME, used to measure time duration 1/50th second 
+#; timer - Last value of TIME, used to measure time duration (1/50th second) 
 #; 
 #; 
 #; 
@@ -128,19 +128,21 @@ ENDPROC
 
 DEFPROC sDie()
 #; Lose a life
+timer = TIME
 lives-=1
-BEEP 0.5,-60
 ENDPROC
 
 DEFPROC die()
 PROC display()
+#; Wait for 2 seconds
+BEEP 0.05,RND(50)-60
+IF (TIME-timer)< 100 THEN ENDPROC 
 #; Reset the ship positions
 %x,%y=%152,%210
 #;Reset bullet count and Fire press
 %m, %a = %0,%0
 #; Back to the game
 PROC state(%3)
-
 ENDPROC
 
 DEFPROC sGameOver()
