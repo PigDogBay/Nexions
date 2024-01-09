@@ -29,14 +29,20 @@
 #; %x - Ship X position
 #; %y - Ship Y position
 #; %z
+#; lives - Current number of lives 
+#; score - Current score
+#; high - High score
+#; timer - Last value of TIME, used to measure time duration 1/50th second 
+#; 
+#; 
 #; 
 #; Game States:
 #; 0 title 
 #; 1 start 
 #; 2 newWave
 #; 3 game
-#; 3 die
-#; 4 gameOver
+#; 4 die
+#; 5 gameOver
 #; 
 #; 
 #; 
@@ -121,9 +127,20 @@ PROC bomb()
 ENDPROC
 
 DEFPROC sDie()
+#; Lose a life
+lives-=1
+BEEP 0.5,-60
 ENDPROC
 
 DEFPROC die()
+PROC display()
+#; Reset the ship positions
+%x,%y=%152,%210
+#;Reset bullet count and Fire press
+%m, %a = %0,%0
+#; Back to the game
+PROC state(%3)
+
 ENDPROC
 
 DEFPROC sGameOver()
@@ -170,9 +187,11 @@ IF %x>271 THEN %x=%272
 ENDPROC 
 
 #; 
-#; 
+#;Scroll star field downwards and move sprites 
 #; 
 DEFPROC display()
+%l-=1
+IF %l=-1 THEN %l=191
 SPRITE %0,%x,%y,%0,%@1101
 SPRITE MOVE INT 
 LAYER AT %0,%l
@@ -182,13 +201,12 @@ ENDPROC
 #; 
 #; 
 DEFPROC update()
-%l-=1
-IF %l=-1 THEN %l=191
 FOR %i=%7 TO %9
 %h = SPRITE OVER (%i,%10 TO %20,%7,%7) 
 IF %h>0 THEN PROC destroyEnemy(%h,%i)
 NEXT %i
-IF SPRITE OVER (%0,%20 TO %24,%7,%2) THEN PROC loseLife() 
+#; If hit by a enemy missile, enter state die
+IF SPRITE OVER (%0,%20 TO %24,%7,%2) THEN PROC state(%4) 
 ENDPROC 
 
 #; 
@@ -232,13 +250,6 @@ IF % RND 20<>5 THEN GO TO @noBomb
 SPRITE bId,%x,%y,%5,1
 SPRITE CONTINUE bId,,%x TO 200 STEP 2 RUN ,%5,3
 @noBomb: bomb+=1: IF bomb=5 THEN bomb =0
-ENDPROC 
-
-#; 
-#; 
-#; 
-DEFPROC loseLife()
-BEEP 0.5,-60
 ENDPROC 
 
 #autoline
