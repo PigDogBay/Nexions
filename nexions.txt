@@ -30,11 +30,13 @@
 #; %y - Ship Y position
 #; %z
 #; 
-#; Game States
-#; title, start, newWave, die, gameOver
-#; 
-#; 
-#; 
+#; Game States:
+#; 0 title 
+#; 1 start 
+#; 2 new wave
+#; 3 game
+#; 3 die
+#; 4 game over
 #; 
 #; 
 #; 
@@ -50,7 +52,7 @@ PROC state(0)
 #; Main game loop
 #; 
 @gameLoop: 
-ON %s: proc title(): proc game()
+ON %s: proc title(): PROC start(): PROC wave(): PROC game(): PROC die(): PROC gameOver()
 GO TO @gameLoop
 
 #;
@@ -58,7 +60,7 @@ GO TO @gameLoop
 #;
 DEFPROC state(newState)
 %s = newState
-ON %s: proc sTitle(): PROC sGame()
+ON %s: proc sTitle(): PROC sStart(): PROC sWave(): PROC sGame(): PROC sDie(): PROC sGameOver()
 ENDPROC
 
 DEFPROC sTitle()
@@ -78,7 +80,7 @@ ENDPROC
 #;
 #; Initialize for a new game
 #;
-DEFPROC sGame()
+DEFPROC sStart()
 PROC initGraphics()
 %x,%y,%l,%m,%a,%n=%152,%210,%0,%7,%0,%0
 lives=3
@@ -86,14 +88,49 @@ LOAD "stars.sl2" LAYER
 PROC nextEnemy()
 ENDPROC
 
+DEFPROC start()
+PROC update()
+PROC display()
+#; Change state to new wave
+PROC state(%2)
+ENDPROC
+
 #;
-#; Game State
+#; init state: new wave of enemies
 #;
+DEFPROC sWave()
+%c=5
+FOR %i=%0 TO %4
+SPRITE %10+i,%30 + RND 200,%30 + RND 100,%5,%1
+SPRITE CONTINUE %10+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN ,%7,%0
+NEXT %i
+ENDPROC
+
+DEFPROC Wave()
+#; Change state to play
+PROC state(%3)
+ENDPROC
+
+DEFPROC sGame()
+ENDPROC
+
 DEFPROC game()
 PROC handleInput()
 PROC update()
 PROC display()
 PROC bomb()
+ENDPROC
+
+DEFPROC sDie()
+ENDPROC
+
+DEFPROC die()
+ENDPROC
+
+DEFPROC sGameOver()
+ENDPROC
+
+DEFPROC gameOver()
 ENDPROC
 
 
@@ -136,14 +173,12 @@ ENDPROC
 #; 
 #; 
 #; 
-#; 
 DEFPROC display()
 SPRITE %0,%x,%y,%0,%@1101
 SPRITE MOVE INT 
 LAYER AT %0,%l
 ENDPROC 
 
-#; 
 #; 
 #; 
 #; 
@@ -158,7 +193,6 @@ NEXT %i
 IF SPRITE OVER (%0,%20 TO %24,%7,%2) THEN PROC loseLife() 
 ENDPROC 
 
-#; 
 #; 
 #; 
 #; 
@@ -186,7 +220,6 @@ ENDPROC
 #; 
 #; 
 #; 
-#; 
 DEFPROC destroyEnemy(%s,%b)
 SPRITE %s,%0,%0,%0,%0: SPRITE %b,%0,%0,%0,%0
 %c-=%1
@@ -198,7 +231,6 @@ LAYER %0: PRINT AT %0,%0;
 LAYER %2,%1
 ENDPROC 
 
-#; 
 #; 
 #; 
 #; 
@@ -215,7 +247,6 @@ SPRITE CONTINUE bId,,%x TO 200 STEP 2 RUN ,%5,3
 @noBomb: bomb+=1: IF bomb=5 THEN bomb =0
 ENDPROC 
 
-#; 
 #; 
 #; 
 #; 
