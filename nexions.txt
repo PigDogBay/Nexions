@@ -30,8 +30,8 @@
 #; %y - Ship Y position
 #; %z
 #; 
-#; 
-#; 
+#; Game States
+#; title, start, newWave, die, gameOver
 #; 
 #; 
 #; 
@@ -44,20 +44,55 @@
 RUN AT 3
 REM MPD Bailey 4 Jan 2024
 REM Nexions
+%s=0
 PROC initVars()
 PROC initLayers()
 PROC initSprites()
+PROC state(%s)
 
 #; 
+#; Main game loop
 #; 
-#; 
-#; 
-@gameLoop: PROC handleInput()
+@gameLoop: 
+ON %s: proc title(): proc game()
+GO TO @gameLoop
+
+#;
+#; Enter new state
+#;
+DEFPROC state(newState)
+%s = newState
+ON %s: proc sTitle(): PROC sGame()
+ENDPROC
+
+DEFPROC sTitle()
+LOAD "title.sl2" LAYER 
+ENDPROC
+
+#; Title screen
+#; Press fire to start game
+#;
+DEFPROC title()
+LOCAL %p = INPUT 1| INPUT 0
+IF %p&$10 THEN PROC state(%1)
+ENDPROC
+
+DEFPROC sGame()
+PROC initLayers()
+PROC initSprites()
+PROC initVars()
+LOAD "stars.sl2" LAYER 
+PROC nextEnemy()
+ENDPROC
+
+
+DEFPROC game()
+PROC handleInput()
 PROC update()
 PROC display()
 PROC bomb()
-GO TO @gameLoop
-STOP 
+ENDPROC
+
 
 #; 
 #; 
@@ -68,8 +103,6 @@ LAYER 0: BORDER 0: PAPER 0: INK 7: CLS
 LAYER CLEAR
 LAYER OVER 6
 LAYER 2,1: LAYER ERASE 0,0,256,192
-PROC title()
-LOAD "stars.sl2" LAYER 
 ENDPROC 
 
 #; 
@@ -84,7 +117,6 @@ SPRITE BANK bankId
 BANK bankId CLEAR
 SPRITE PRINT 1
 SPRITE STOP 
-PROC nextEnemy()
 ENDPROC 
 
 #; 
@@ -199,15 +231,6 @@ ENDPROC
 #; 
 DEFPROC loseLife()
 BEEP 0.5,-60
-ENDPROC 
-
-#; 
-#; 
-#; 
-#; 
-DEFPROC title()
-LOAD "title.sl2" LAYER 
-PAUSE 0
 ENDPROC 
 
 #autoline
