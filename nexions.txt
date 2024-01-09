@@ -18,7 +18,7 @@
 #; %m - Current missile sprite ID, 7,8,9
 #; %n - Score
 #; %o - High Score
-#; %p - Lives
+#; %p 
 #; %q
 #; %r
 #; %s - TODO Current State
@@ -80,8 +80,8 @@ ENDPROC
 #; Press fire to start game
 #;
 DEFPROC title()
-LOCAL %p = INPUT 1| INPUT 0
-IF %p&$10 THEN PROC state(sStart)
+%i = INPUT 1| INPUT 0
+IF %i&$10 THEN PROC state(sStart)
 ENDPROC
 
 #;
@@ -131,28 +131,38 @@ DEFPROC sDie()
 #; Lose a life
 timer = TIME
 lives-=1
+LAYER %0: PRINT AT %0,%31;lives
+LAYER %2,%1
 ENDPROC
 
 DEFPROC die()
 PROC display()
+
 #; Wait for 2 seconds
 BEEP 0.05,RND(50)-60
 IF (TIME-timer)< 100 THEN ENDPROC 
 #; Reset the ship positions
 %x,%y=%152,%210
+
 #;Reset bullet count and Fire press
 %m, %a = %0,%0
+
 #; Back to the game
-if lives=0 then 
-PROC state(sGame)
+IF lives=0 THEN PROC state(sGameOver) : ELSE PROC state(sGame)
 ENDPROC
 
 DEFPROC sGameOver()
+timer = TIME
+LAYER %0: PRINT AT %10,%10;"Game Over"
+LAYER %2,%1
 ENDPROC
 
 DEFPROC gameOver()
+#; Wait for 2 seconds
+IF (TIME-timer)< 100 THEN ENDPROC 
+%i = INPUT 1| INPUT 0
+IF %i&$10 THEN PROC state(sTitle)
 ENDPROC
-
 
 #; 
 #; Set up Layers and Sprites
