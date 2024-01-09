@@ -33,10 +33,10 @@
 #; Game States:
 #; 0 title 
 #; 1 start 
-#; 2 new wave
+#; 2 newWave
 #; 3 game
 #; 3 die
-#; 4 game over
+#; 4 gameOver
 #; 
 #; 
 #; 
@@ -85,7 +85,6 @@ PROC initGraphics()
 %x,%y,%l,%m,%a,%n=%152,%210,%0,%7,%0,%0
 lives=3
 LOAD "stars.sl2" LAYER 
-PROC nextEnemy()
 ENDPROC
 
 DEFPROC start()
@@ -183,7 +182,6 @@ ENDPROC
 #; 
 #; 
 DEFPROC update()
-LOCAL %h
 %l-=1
 IF %l=-1 THEN %l=191
 FOR %i=%7 TO %9
@@ -208,23 +206,12 @@ ENDPROC
 #; 
 #; 
 #; 
-#; 
-DEFPROC nextEnemy()
-%c=5
-FOR %i=%0 TO %4
-SPRITE %10+i,%30 + RND 200,%30 + RND 100,%5,%1
-SPRITE CONTINUE %10+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN ,%7,%0
-NEXT %i
-ENDPROC 
-
-#; 
-#; 
-#; 
 DEFPROC destroyEnemy(%s,%b)
 SPRITE %s,%0,%0,%0,%0: SPRITE %b,%0,%0,%0,%0
 %c-=%1
 BEEP .1,-5
-IF %c=0 THEN PROC nextEnemy()
+#; No Enemies left, change state to newWave
+IF %c=0 THEN PROC state(%2)
 #; Update the score
 %n+=%50
 LAYER %0: PRINT AT %0,%0;
