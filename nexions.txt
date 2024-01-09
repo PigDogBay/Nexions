@@ -146,7 +146,7 @@ DEFPROC die()
 PROC display()
 
 #; Wait for 2 seconds
-BEEP 0.05,RND(50)-60
+BEEP 0.05,RND(30)-60
 IF (TIME-timer)< 100 THEN ENDPROC 
 #; Reset the ship positions
 %x=%152
