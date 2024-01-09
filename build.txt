@@ -6,4 +6,4 @@ cd "C:/home/nexions"
 print "Converting to BASIC"
 .txt2bas "nexions.txt"
 .txt2bas "starfield.txt"
-
+load "nexions.bas"
