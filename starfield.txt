@@ -1,1 +1,24 @@
-#program starfield#autoline 10,10; Generates star field image; MPD Bailey 4 Jan 2024LAYER 0: BORDER 0: INK 7: PAPER 0: CLS LAYER 2,1: LAYER ERASE 0,0,256,192,0 FOR %i=0 TO 100    INK % RND 256    PLOT % RND 256, % RND 192NEXT %IPAUSE 0SAVE "stars.sl2" LAYER LAYER CLEAR STOP ; Verify imageLAYER 2,1LOAD "stars.sl2" LAYER PAUSE 0#autoline
+#program starfield
+#autoline 10,10
+
+; Generates star field image
+; MPD Bailey 4 Jan 2024
+
+LAYER 0: BORDER 0: INK 7: PAPER 0: CLS 
+LAYER 2,1: LAYER ERASE 0,0,256,192,0 
+FOR %i=0 TO 100
+    INK % RND 256
+    PLOT % RND 256, % RND 192
+NEXT %I
+PAUSE 0
+
+SAVE "stars.sl2" LAYER 
+LAYER CLEAR 
+STOP 
+
+; Verify image
+LAYER 2,1
+LOAD "stars.sl2" LAYER 
+PAUSE 0
+
+#autoline
