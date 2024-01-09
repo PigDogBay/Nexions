@@ -143,10 +143,10 @@ PROC display()
 BEEP 0.05,RND(50)-60
 IF (TIME-timer)< 100 THEN ENDPROC 
 #; Reset the ship positions
-%x,%y=%152,%210
+%x=%152
 
 #;Reset bullet count and Fire press
-%m, %a = %0,%0
+%m, %a = %7,%0
 
 #; Back to the game
 IF lives=0 THEN PROC state(sGameOver) : ELSE PROC state(sGame)
