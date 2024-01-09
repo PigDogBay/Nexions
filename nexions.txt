@@ -16,8 +16,8 @@
 #; %k - tmp
 #; %l - Layer Y position, used to scroll starfield
 #; %m - Current missile sprite ID, 7,8,9
-#; %n - Score
-#; %o - High Score
+#; %n 
+#; %o 
 #; %p 
 #; %q
 #; %r
@@ -89,14 +89,16 @@ ENDPROC
 #;
 DEFPROC sStart()
 PROC initGraphics()
-%x,%y,%l,%m,%a,%n=%152,%210,%0,%7,%0,%0
+%x,%y,%l,%m,%a=%152,%210,%0,%7,%0
 lives=3
+score=0
 LOAD "stars.sl2" LAYER 
 ENDPROC
 
 DEFPROC start()
 PROC update()
 PROC display()
+PROC score() : PROC lives()
 #; Change state to new wave
 PROC state(sWave)
 ENDPROC
@@ -131,8 +133,7 @@ DEFPROC sDie()
 #; Lose a life
 timer = TIME
 lives-=1
-LAYER %0: PRINT AT %0,%31;lives
-LAYER %2,%1
+PROC lives()
 ENDPROC
 
 DEFPROC die()
@@ -158,6 +159,7 @@ LAYER %2,%1
 ENDPROC
 
 DEFPROC gameOver()
+PROC display()
 #; Wait for 2 seconds
 IF (TIME-timer)< 100 THEN ENDPROC 
 %i = INPUT 1| INPUT 0
@@ -223,6 +225,17 @@ NEXT %i
 IF SPRITE OVER (%0,%20 TO %24,%7,%2) THEN PROC state(sDie) 
 ENDPROC 
 
+DEFPROC score()
+LAYER %0: PRINT AT %0,%0;score
+LAYER %2,%1
+ENDPROC 
+
+DEFPROC lives()
+LAYER %0: PRINT AT %0,%31;lives
+LAYER %2,%1
+ENDPROC 
+
+
 #; 
 #; 
 #; 
@@ -245,9 +258,8 @@ BEEP .1,-5
 #; No Enemies left, change state to newWave
 IF %c=0 THEN PROC state(sWave)
 #; Update the score
-%n+=%50
-LAYER %0: PRINT AT %0,%0;
-LAYER %2,%1
+score+=50
+PROC score()
 ENDPROC 
 
 #; 
