@@ -96,6 +96,9 @@ PROC initGraphics()
 lives=3
 score=0
 LOAD "stars.sl2" LAYER 
+FOR i=16 TO -16 STEP -1
+BEEP .1,i
+NEXT i
 ENDPROC
 
 DEFPROC start()
