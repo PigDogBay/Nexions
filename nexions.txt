@@ -1,1 +1,212 @@
-#program nexions#autoline 10,10#; #; Global Variables#; #; %a - Fire button count, prevent user holding down fire#; %b#; %c - Enemy count#; %d#; %e#; %f#; %g#; %h#; %i - tmp#; %j - tmp#; %k - tmp#; %l - Layer Y position, used to scroll starfield#; %m - Current missile sprite ID, 7,8,9#; %n - Score#; %o - High Score#; %p - Lives#; %q#; %r#; %s - TODO Current State#; %t#; %u#; %v#; %w#; %x - Ship X position#; %y - Ship Y position#; %z#; #; #; #; #; #; #; #; #; #; #; RUN AT 3REM MPD Bailey 4 Jan 2024REM NexionsPROC initVars()PROC initLayers()PROC initSprites()#; #; #; #; @gameLoop: PROC handleInput()PROC update()PROC display()PROC bomb()GO TO @gameLoopSTOP #; #; #; #; DEFPROC initLayers()LAYER 0: BORDER 0: PAPER 0: INK 7: CLS LAYER OVER 6LAYER 2,1: LAYER ERASE 0,0,256,192PROC title()LOAD "stars.sl2" LAYER ENDPROC #; #; #; #; DEFPROC initSprites()BANK NEW bankIdLOAD "sprites.spr" BANK bankIdSPRITE CLEAR SPRITE BANK bankIdBANK bankId CLEARSPRITE PRINT 1SPRITE STOP PROC nextEnemy()ENDPROC #; #; #; #; DEFPROC initVars()%x,%y,%l,%m,%a,%n=%152,%210,%0,%7,%0,%0lives=3ENDPROC #; #; #; #; DEFPROC handleInput()LOCAL %p = INPUT 1| INPUT 0IF %p&1 THEN %x+=2IF %p&2 THEN %x-=2#; Prevent user holding down the fire buttonIF %p&$10 THEN %a+=1 : ELSE %a=0IF %a=1 THEN PROC fire()IF %x<32 THEN %x=%32IF %x>271 THEN %x=%272ENDPROC #; #; #; #; DEFPROC display()SPRITE %0,%x,%y,%0,%@1101SPRITE MOVE INT LAYER AT %0,%lENDPROC #; #; #; #; DEFPROC update()LOCAL %h%l-=1IF %l=-1 THEN %l=191FOR %i=%7 TO %9%h = SPRITE OVER (%i,%10 TO %20,%7,%7) IF %h>0 THEN PROC destroyEnemy(%h,%i)NEXT %iIF SPRITE OVER (%0,%20 TO %24,%7,%2) THEN PROC loseLife() ENDPROC #; #; #; #; DEFPROC fire()#; Exit if 3 missiles flyingIF SPRITE 9 THEN ENDPROCBEEP .1,0SPRITE %m,%x,%200,%4,1SPRITE CONTINUE %m,%x,%0 TO %200 STEP -8 RUN,%4,%3%m+=%1: IF %m>9 THEN %m=%7ENDPROC #; #; #; #; DEFPROC nextEnemy()%c=5FOR %i=%0 TO %4SPRITE %10+i,%30 + RND 200,%30 + RND 100,%5,%1SPRITE CONTINUE %10+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN ,%7,%0NEXT %iENDPROC #; #; #; #; DEFPROC destroyEnemy(%s,%b)SPRITE %s,%0,%0,%0,%0: SPRITE %b,%0,%0,%0,%0%c-=%1BEEP .1,-5IF %c=0 THEN PROC nextEnemy()#; Update the score%n+=%50LAYER %0: PRINT AT %0,%0;LAYER %2,%1ENDPROC #; #; #; #; DEFPROC bomb()PRIVATE bomb=0LOCAL %x,%y sId = bomb+10:bId=20+bombIF NOT SPRITE sId OR SPRITE bId THEN GO TO @noBombIF % RND 20<>5 THEN GO TO @noBomb%x = SPRITE AT (sId,0)%y = SPRITE AT (sId,1)SPRITE bId,%x,%y,%5,1SPRITE CONTINUE bId,,%x TO 200 STEP 2 RUN ,%5,3@noBomb: bomb+=1: IF bomb=5 THEN bomb =0ENDPROC #; #; #; #; DEFPROC loseLife()BEEP 0.5,-60ENDPROC #; #; #; #; DEFPROC title()LOAD "title.sl2" LAYER PAUSE 0ENDPROC #autoline
+#program nexions
+#autoline 10,10
+#; 
+#; Global Variables
+#; 
+#; %a - Fire button count, prevent user holding down fire
+#; %b
+#; %c - Enemy count
+#; %d
+#; %e
+#; %f
+#; %g
+#; %h
+#; %i - tmp
+#; %j - tmp
+#; %k - tmp
+#; %l - Layer Y position, used to scroll starfield
+#; %m - Current missile sprite ID, 7,8,9
+#; %n - Score
+#; %o - High Score
+#; %p - Lives
+#; %q
+#; %r
+#; %s - TODO Current State
+#; %t
+#; %u
+#; %v
+#; %w
+#; %x - Ship X position
+#; %y - Ship Y position
+#; %z
+#; 
+#; 
+#; 
+#; 
+#; 
+#; 
+#; 
+#; 
+#; 
+#; 
+#; 
+
+RUN AT 3
+REM MPD Bailey 4 Jan 2024
+REM Nexions
+PROC initVars()
+PROC initLayers()
+PROC initSprites()
+
+#; 
+#; 
+#; 
+#; 
+@gameLoop: PROC handleInput()
+PROC update()
+PROC display()
+PROC bomb()
+GO TO @gameLoop
+STOP 
+
+#; 
+#; 
+#; 
+#; 
+DEFPROC initLayers()
+LAYER 0: BORDER 0: PAPER 0: INK 7: CLS 
+LAYER OVER 6
+LAYER 2,1: LAYER ERASE 0,0,256,192
+PROC title()
+LOAD "stars.sl2" LAYER 
+ENDPROC 
+
+#; 
+#; 
+#; 
+#; 
+DEFPROC initSprites()
+BANK NEW bankId
+LOAD "sprites.spr" BANK bankId
+SPRITE CLEAR 
+SPRITE BANK bankId
+BANK bankId CLEAR
+SPRITE PRINT 1
+SPRITE STOP 
+PROC nextEnemy()
+ENDPROC 
+
+#; 
+#; 
+#; 
+#; 
+DEFPROC initVars()
+%x,%y,%l,%m,%a,%n=%152,%210,%0,%7,%0,%0
+lives=3
+ENDPROC 
+
+#; 
+#; 
+#; 
+#; 
+DEFPROC handleInput()
+LOCAL %p = INPUT 1| INPUT 0
+IF %p&1 THEN %x+=2
+IF %p&2 THEN %x-=2
+#; Prevent user holding down the fire button
+IF %p&$10 THEN %a+=1 : ELSE %a=0
+IF %a=1 THEN PROC fire()
+IF %x<32 THEN %x=%32
+IF %x>271 THEN %x=%272
+ENDPROC 
+
+#; 
+#; 
+#; 
+#; 
+DEFPROC display()
+SPRITE %0,%x,%y,%0,%@1101
+SPRITE MOVE INT 
+LAYER AT %0,%l
+ENDPROC 
+
+#; 
+#; 
+#; 
+#; 
+DEFPROC update()
+LOCAL %h
+%l-=1
+IF %l=-1 THEN %l=191
+FOR %i=%7 TO %9
+%h = SPRITE OVER (%i,%10 TO %20,%7,%7) 
+IF %h>0 THEN PROC destroyEnemy(%h,%i)
+NEXT %i
+IF SPRITE OVER (%0,%20 TO %24,%7,%2) THEN PROC loseLife() 
+ENDPROC 
+
+#; 
+#; 
+#; 
+#; 
+DEFPROC fire()
+#; Exit if 3 missiles flying
+IF SPRITE 9 THEN ENDPROC
+BEEP .1,0
+SPRITE %m,%x,%200,%4,1
+SPRITE CONTINUE %m,%x,%0 TO %200 STEP -8 RUN,%4,%3
+%m+=%1: IF %m>9 THEN %m=%7
+ENDPROC 
+
+#; 
+#; 
+#; 
+#; 
+DEFPROC nextEnemy()
+%c=5
+FOR %i=%0 TO %4
+SPRITE %10+i,%30 + RND 200,%30 + RND 100,%5,%1
+SPRITE CONTINUE %10+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN ,%7,%0
+NEXT %i
+ENDPROC 
+
+#; 
+#; 
+#; 
+#; 
+DEFPROC destroyEnemy(%s,%b)
+SPRITE %s,%0,%0,%0,%0: SPRITE %b,%0,%0,%0,%0
+%c-=%1
+BEEP .1,-5
+IF %c=0 THEN PROC nextEnemy()
+#; Update the score
+%n+=%50
+LAYER %0: PRINT AT %0,%0;
+LAYER %2,%1
+ENDPROC 
+
+#; 
+#; 
+#; 
+#; 
+DEFPROC bomb()
+PRIVATE bomb=0
+LOCAL %x,%y 
+sId = bomb+10:bId=20+bomb
+IF NOT SPRITE sId OR SPRITE bId THEN GO TO @noBomb
+IF % RND 20<>5 THEN GO TO @noBomb
+%x = SPRITE AT (sId,0)
+%y = SPRITE AT (sId,1)
+SPRITE bId,%x,%y,%5,1
+SPRITE CONTINUE bId,,%x TO 200 STEP 2 RUN ,%5,3
+@noBomb: bomb+=1: IF bomb=5 THEN bomb =0
+ENDPROC 
+
+#; 
+#; 
+#; 
+#; 
+DEFPROC loseLife()
+BEEP 0.5,-60
+ENDPROC 
+
+#; 
+#; 
+#; 
+#; 
+DEFPROC title()
+LOAD "title.sl2" LAYER 
+PAUSE 0
+ENDPROC 
+
+#autoline
