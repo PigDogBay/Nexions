@@ -52,7 +52,9 @@
 RUN AT 3
 REM MPD Bailey 4 Jan 2024
 REM Nexions
-PROC state(0)
+#; Constants for states
+sTitle, sStart, sWave, sGame, sDie, sGameOver=0,1,2,3,4,5 
+PROC state(sTitle)
 
 #; 
 #; Main game loop
@@ -79,9 +81,8 @@ ENDPROC
 #;
 DEFPROC title()
 LOCAL %p = INPUT 1| INPUT 0
-IF %p&$10 THEN PROC state(%1)
+IF %p&$10 THEN PROC state(sStart)
 ENDPROC
-
 
 #;
 #; Initialize for a new game
@@ -97,7 +98,7 @@ DEFPROC start()
 PROC update()
 PROC display()
 #; Change state to new wave
-PROC state(%2)
+PROC state(sWave)
 ENDPROC
 
 #;
@@ -113,7 +114,7 @@ ENDPROC
 
 DEFPROC Wave()
 #; Change state to play
-PROC state(%3)
+PROC state(sGame)
 ENDPROC
 
 DEFPROC sGame()
@@ -142,7 +143,8 @@ IF (TIME-timer)< 100 THEN ENDPROC
 #;Reset bullet count and Fire press
 %m, %a = %0,%0
 #; Back to the game
-PROC state(%3)
+if lives=0 then 
+PROC state(sGame)
 ENDPROC
 
 DEFPROC sGameOver()
@@ -208,7 +210,7 @@ FOR %i=%7 TO %9
 IF %h>0 THEN PROC destroyEnemy(%h,%i)
 NEXT %i
 #; If hit by a enemy missile, enter state die
-IF SPRITE OVER (%0,%20 TO %24,%7,%2) THEN PROC state(%4) 
+IF SPRITE OVER (%0,%20 TO %24,%7,%2) THEN PROC state(sDie) 
 ENDPROC 
 
 #; 
@@ -231,7 +233,7 @@ SPRITE %s,%0,%0,%0,%0: SPRITE %b,%0,%0,%0,%0
 %c-=%1
 BEEP .1,-5
 #; No Enemies left, change state to newWave
-IF %c=0 THEN PROC state(%2)
+IF %c=0 THEN PROC state(sWave)
 #; Update the score
 %n+=%50
 LAYER %0: PRINT AT %0,%0;
