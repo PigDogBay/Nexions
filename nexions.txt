@@ -330,7 +330,7 @@ IF %h>0 THEN PROC destroyEnemy(%h,%i)
 NEXT %i
 
 #; Return true if player has been hit
-ENDPROC = SPRITE OVER (%0,%20 TO %24,%7,%2)
+ENDPROC = SPRITE OVER (%0,%20 TO %29,%7,%2)
 
 
 #; 
