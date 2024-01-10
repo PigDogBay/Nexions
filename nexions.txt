@@ -24,8 +24,8 @@
 #; %s - TODO Current State
 #; %t
 #; %u
-#; %v
-#; %w
+#; %v - Sub wave number of enemies: 5,7,9
+#; %w - Wave 1 - 20
 #; %x - Ship X position
 #; %y - Ship Y position
 #; %z
@@ -37,12 +37,14 @@
 #; 
 #; 
 #; Game States:
-#; 0 title 
-#; 1 start 
-#; 2 newWave
-#; 3 game
-#; 4 die
-#; 5 gameOver
+#; 0 sTitle 
+#; 1 sStart 
+#; 2 sWave
+#; 3 sNewWave
+#; 4 sSubWave
+#; 5 sGame
+#; 6 sDie
+#; 7 sGameOver
 #; 
 #; 
 #; 
@@ -53,14 +55,14 @@ RUN AT 3
 REM MPD Bailey 4 Jan 2024
 REM Nexions
 #; Constants for states
-sTitle, sStart, sWave, sGame, sDie, sGameOver=0,1,2,3,4,5 
+sTitle, sStart, sWave, sNewWave, sSubWave, sGame, sDie, sGameOver=0,1,2,3,4,5,6,7
 PROC state(sTitle)
 
 #; 
 #; Main game loop
 #; 
 @gameLoop: 
-ON %s: proc title(): PROC start(): PROC wave(): PROC game(): PROC die(): PROC gameOver()
+ON %s: proc title(): PROC start(): PROC wave(): PROC newWave(): PROC subWave(): PROC game(): PROC die(): PROC gameOver()
 GO TO @gameLoop
 
 #;
@@ -68,7 +70,8 @@ GO TO @gameLoop
 #;
 DEFPROC state(newState)
 %s = newState
-ON %s: proc sTitle(): PROC sStart(): PROC sWave(): PROC sGame(): PROC sDie(): PROC sGameOver()
+proc dbg(%s)
+ON %s: proc sTitle(): PROC sStart(): PROC sWave(): PROC sNewWave(): PROC sSubWave(): PROC sGame(): PROC sDie(): PROC sGameOver()
 ENDPROC
 
 #;
@@ -96,6 +99,7 @@ ENDPROC
 DEFPROC sStart()
 PROC initGraphics()
 %x,%y,%l,%m,%a=%152,%210,%0,%7,%0
+%w,%v=1,5
 lives=3
 score=0
 LOAD "stars.sl2" LAYER 
@@ -116,16 +120,41 @@ ENDPROC
 #; Initialize State WAVE
 #;
 DEFPROC sWave()
-%c=5
-FOR %i=%0 TO %4
-SPRITE %10+i,%30 + RND 200,%30 + RND 100,%5,%1
-SPRITE CONTINUE %10+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN ,%7,%0
-NEXT %i
+timer = TIME
+IF %v=5 THEN PROC state(sNewWave): ELSE PROC state(sSubWave)
 ENDPROC
 
 DEFPROC Wave()
-#; Change state to play
-PROC state(sGame)
+ENDPROC
+
+DEFPROC sNewWave() 
+PROC display()
+LAYER %0: PRINT AT %10,%10;%w;". Invasion"
+LAYER %2,%1
+ENDPROC
+
+DEFPROC newWave() 
+PROC display()
+IF (TIME-timer)<50 THEN ENDPROC
+LAYER %0: PRINT AT %10,%10;"                   "
+LAYER %2,%1
+PROC state(sSubWave)
+ENDPROC
+
+DEFPROC sSubWave() 
+PROC display()
+ENDPROC
+
+DEFPROC subWave() 
+PROC display()
+%c=%v
+FOR %i=%1 TO %v
+SPRITE %9+i,%30 + RND 200,%30 + RND 100,%5,%1
+SPRITE CONTINUE %9+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN ,%7,%0
+NEXT %i
+%v = %v + 2
+IF %v>9 THEN %w+=1 : %v=5
+PROC state(sGame)  
 ENDPROC
 
 #;
@@ -273,11 +302,11 @@ DEFPROC destroyEnemy(%s,%b)
 SPRITE %s,%0,%0,%0,%0: SPRITE %b,%0,%0,%0,%0
 %c-=%1
 BEEP .1,-5
-#; No Enemies left, change state to newWave
-IF %c=0 THEN PROC state(sWave)
 #; Update the score
 score+=50
 PROC score()
+#; No Enemies left, change state to sWave
+IF %c=0 THEN PROC state(sWave)
 ENDPROC 
 
 #; 
@@ -293,7 +322,12 @@ IF % RND 20<>5 THEN GO TO @noBomb
 %y = SPRITE AT (sId,1)
 SPRITE bId,%x,%y,%5,1
 SPRITE CONTINUE bId,,%x TO 200 STEP 2 RUN ,%5,3
-@noBomb: bomb+=1: IF bomb=5 THEN bomb =0
+@noBomb: bomb+=1: IF bomb=9 THEN bomb=0
 ENDPROC 
+
+DEFPROC dbg(%i)
+LAYER %0: PRINT AT %21,%0;%i
+LAYER %2,%1
+ENDPROC
 
 #autoline
