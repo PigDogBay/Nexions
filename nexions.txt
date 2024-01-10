@@ -1,7 +1,8 @@
 #program nexions
 #autoline 10,10
 #; 
-#; Global Variables
+#; GLOBAL VARIABLES
+#; ----------------
 #; 
 #; %a - Fire button count, prevent user holding down fire
 #; %b
@@ -36,7 +37,9 @@
 #; 
 #; 
 #; 
-#; Game States:
+#; GAME STATES
+#; -----------
+#;
 #; 0 sTitle 
 #; 1 sStart 
 #; 2 sWave
@@ -50,6 +53,18 @@
 #; 
 #; 
 #; 
+#; SPRITES
+#; -------
+#; 
+#; 0 - Player ship
+#; 7,8,9 - Player bullets
+#; 10-19 - Enemies
+#; 20-29 - Enemy Bombs
+#; 
+#; 
+#; 
+#; 
+#; 
 
 RUN AT 3
 REM MPD Bailey 4 Jan 2024
@@ -58,12 +73,17 @@ REM Nexions
 sTitle, sStart, sWave, sNewWave, sSubWave, sGame, sDie, sGameOver=0,1,2,3,4,5,6,7
 PROC state(sTitle)
 
-#; 
-#; Main game loop
-#; 
+
+#;-----------------------------
+#;
+#; State Machine Functions
+#;
+#;-----------------------------
+
 @gameLoop: 
 ON %s: proc title(): PROC start(): PROC wave(): PROC newWave(): PROC subWave(): PROC game(): PROC die(): PROC gameOver()
 GO TO @gameLoop
+
 
 #;
 #; Enter new state and initialize it
@@ -73,9 +93,9 @@ DEFPROC state(newState)
 ON %s: proc sTitle(): PROC sStart(): PROC sWave(): PROC sNewWave(): PROC sSubWave(): PROC sGame(): PROC sDie(): PROC sGameOver()
 ENDPROC
 
-#;
-#; Initialize State TITLE
-#;
+#; 
+#; *** ENTER STATE: TITLE  ***
+#; 
 DEFPROC sTitle()
 PROC initGraphics()
 LOAD "title.sl2" LAYER 
@@ -83,18 +103,19 @@ FOR i=0 TO 10
 BEEP .1,-10 + i:BEEP .1,-20 + i:BEEP .1,-30 + i
 NEXT i
 ENDPROC
-
-#; Title screen
-#; Press fire to start game
-#;
+#; 
+#; *** STATE: TITLE ***
+#; 
 DEFPROC title()
 %i = INPUT 1| INPUT 0
+#; Fire to start game
 IF %i&$10 THEN PROC state(sStart)
 ENDPROC
 
-#;
-#; Initialize State START
-#;
+
+#; 
+#; *** STATE: START ***
+#; 
 DEFPROC sStart()
 PROC initGraphics()
 %x,%y,%l,%m,%a=%152,%210,%0,%7,%0
@@ -106,7 +127,9 @@ FOR i=16 TO -16 STEP -1
 BEEP .1,i
 NEXT i
 ENDPROC
-
+#; 
+#; *** ENTER STATE: START***
+#; 
 DEFPROC start()
 PROC display()
 PROC score() : PROC lives()
@@ -114,23 +137,31 @@ PROC score() : PROC lives()
 PROC state(sWave)
 ENDPROC
 
-#;
-#; Initialize State WAVE
-#;
+#; 
+#; *** ENTER STATE: WAVE ***
+#; 
 DEFPROC sWave()
 timer = TIME
 IF %v=5 THEN PROC state(sNewWave): ELSE PROC state(sSubWave)
 ENDPROC
-
+#; 
+#; *** ENTER STATE: WAVE ***
+#; 
 DEFPROC Wave()
 ENDPROC
 
+
+#; 
+#; *** ENTER STATE: NEW WAVE***
+#; 
 DEFPROC sNewWave() 
 PROC display()
 LAYER %0: PRINT AT %10,%10;%w;". Invasion"
 LAYER %2,%1
 ENDPROC
-
+#; 
+#; *** ENTER STATE: NEW WAVE ***
+#; 
 DEFPROC newWave() 
 PROC display()
 IF (TIME-timer)<50 THEN ENDPROC
@@ -139,10 +170,16 @@ LAYER %2,%1
 PROC state(sSubWave)
 ENDPROC
 
+
+#; 
+#; *** ENTER STATE: SUBWAVE ***
+#; 
 DEFPROC sSubWave() 
 PROC display()
 ENDPROC
-
+#; 
+#; *** ENTER STATE: SUBWAVE ***
+#; 
 DEFPROC subWave() 
 PROC display()
 %c=%v
@@ -155,13 +192,15 @@ IF %v>9 THEN %w+=1 : %v=5
 PROC state(sGame)  
 ENDPROC
 
-#;
-#; Initialize State GAME
-#;
+#; 
+#; *** ENTER STATE: GAME ***
+#; 
 DEFPROC sGame()
 timer = TIME
 ENDPROC
-
+#; 
+#; *** ENTER STATE: GAME ***
+#; 
 DEFPROC game()
 PROC display()
 PROC handleInput()
@@ -172,16 +211,18 @@ IF %i THEN PROC state(sDie)
 IF %c<1 THEN PROC state(sWave)
 ENDPROC
 
-#;
-#; Initialize State DIE
-#;
+#; 
+#; *** ENTER STATE: DIE ***
+#; 
 DEFPROC sDie()
 #; Lose a life
 timer = TIME
 lives-=1
 PROC lives()
 ENDPROC
-
+#; 
+#; *** STATE: DIE ***
+#; 
 DEFPROC die()
 PROC display()
 
@@ -198,15 +239,18 @@ IF (TIME-timer)< 100 THEN ENDPROC
 IF lives=0 THEN PROC state(sGameOver) : ELSE PROC state(sGame)
 ENDPROC
 
+
+#; 
+#; *** ENTER STATE: GAME OVER  ***
+#; 
 DEFPROC sGameOver()
 timer = TIME
 LAYER %0: PRINT AT %10,%10;"Game Over"
 LAYER %2,%1
 ENDPROC
-
-#;
-#; Initialize State GAMEOVER
-#;
+#; 
+#; *** STATE: GAME OVER  ***
+#; 
 DEFPROC gameOver()
 PROC display()
 #; Wait for 2 seconds
@@ -215,9 +259,19 @@ IF (TIME-timer)< 100 THEN ENDPROC
 IF %i&$10 THEN PROC state(sTitle)
 ENDPROC
 
+
+#;-----------------------------
+#;
+#; Utility Functions
+#; Do NOT change state in these
+#;
+#;-----------------------------
+
+
+#; 
+#; *** INITIALIZE GRAPHICS ***
 #; 
 #; Set up Layers and Sprites
-#; 
 DEFPROC initGraphics()
 
 #; Layers
@@ -237,8 +291,9 @@ SPRITE STOP
 
 ENDPROC 
 
+
 #; 
-#; 
+#; *** HANDLE INPUT ***
 #; 
 DEFPROC handleInput()
 %i = INPUT 1| INPUT 0
@@ -251,9 +306,11 @@ IF %x<32 THEN %x=%32
 IF %x>271 THEN %x=%272
 ENDPROC 
 
+
+#; 
+#; *** UPDATE DISPLAY  ***
 #; 
 #;Scroll star field downwards and move sprites 
-#; 
 DEFPROC display()
 %l-=1
 IF %l=-1 THEN %l=191
@@ -262,8 +319,9 @@ SPRITE MOVE INT
 LAYER AT %0,%l
 ENDPROC 
 
+
 #; 
-#; Collision Detection
+#; *** COLLISION DETECTION ***
 #; 
 DEFPROC colDet()
 FOR %i=%7 TO %9
@@ -274,11 +332,19 @@ NEXT %i
 #; Return true if player has been hit
 ENDPROC = SPRITE OVER (%0,%20 TO %24,%7,%2)
 
+
+#; 
+#; *** UPDATE SCORE ***
+#; 
 DEFPROC score()
 LAYER %0: PRINT AT %0,%0;score
 LAYER %2,%1
 ENDPROC 
 
+
+#; 
+#; *** UPDATE LIVES ***
+#; 
 DEFPROC lives()
 LAYER %0: PRINT AT %0,%31;lives
 LAYER %2,%1
@@ -286,7 +352,7 @@ ENDPROC
 
 
 #; 
-#; 
+#; *** PLAYER FIRE ***
 #; 
 DEFPROC fire()
 #; Exit if 3 missiles flying
@@ -297,8 +363,9 @@ SPRITE CONTINUE %m,%x,%0 TO %200 STEP -8 RUN,%4,%3
 %m+=%1: IF %m>9 THEN %m=%7
 ENDPROC 
 
+
 #; 
-#; 
+#; *** DESTROY ENEMY ***
 #; 
 DEFPROC destroyEnemy(%s,%b)
 SPRITE %s,%0,%0,%0,%0: SPRITE %b,%0,%0,%0,%0
@@ -309,6 +376,10 @@ score+=50
 PROC score()
 ENDPROC
 
+
+#; 
+#; *** CLEAR ENEMIES ***
+#; 
 DEFPROC clearEnemies()
 FOR %i=%10 TO %19
 SPRITE %i,%0,%0,%0,%0: SPRITE %i+10,%0,%0,%0,%0
@@ -317,7 +388,7 @@ ENDPROC
 
 
 #; 
-#; 
+#; *** ENEMY BOMB ***
 #; 
 DEFPROC bomb()
 PRIVATE bomb=0
@@ -332,6 +403,10 @@ SPRITE CONTINUE bId,,%x TO 200 STEP 2 RUN ,%5,3
 @noBomb: bomb+=1: IF bomb=9 THEN bomb=0
 ENDPROC 
 
+
+#; 
+#; *** DEBUG PRINT ***
+#; 
 DEFPROC dbg(%i)
 LAYER %0: PRINT AT %21,%0;%i
 LAYER %2,%1
