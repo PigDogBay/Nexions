@@ -108,7 +108,6 @@ NEXT i
 ENDPROC
 
 DEFPROC start()
-PROC update()
 PROC display()
 PROC score() : PROC lives()
 #; Change state to new wave
@@ -164,10 +163,11 @@ timer = TIME
 ENDPROC
 
 DEFPROC game()
-PROC handleInput()
-PROC update()
 PROC display()
+PROC handleInput()
 PROC bomb()
+PROC colDet() TO %i
+IF %i THEN PROC state(sDie)
 #; No Enemies left, change state to sWave
 IF %c<1 THEN PROC state(sWave)
 ENDPROC
@@ -263,18 +263,16 @@ LAYER AT %0,%l
 ENDPROC 
 
 #; 
+#; Collision Detection
 #; 
-#; 
-DEFPROC update()
+DEFPROC colDet()
 FOR %i=%7 TO %9
 %h = SPRITE OVER (%i,%10 TO %19,%7,%7) 
 IF %h>0 THEN PROC destroyEnemy(%h,%i)
 NEXT %i
 
-#; If hit by a enemy missile, enter state die
-IF SPRITE OVER (%0,%20 TO %24,%7,%2) THEN PROC state(sDie) 
-
-ENDPROC 
+#; Return true if player has been hit
+ENDPROC = SPRITE OVER (%0,%20 TO %24,%7,%2)
 
 DEFPROC score()
 LAYER %0: PRINT AT %0,%0;score
