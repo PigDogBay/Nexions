@@ -64,13 +64,16 @@ ON %s: proc title(): PROC start(): PROC wave(): PROC game(): PROC die(): PROC ga
 GO TO @gameLoop
 
 #;
-#; Enter new state
+#; Enter new state and initialize it
 #;
 DEFPROC state(newState)
 %s = newState
 ON %s: proc sTitle(): PROC sStart(): PROC sWave(): PROC sGame(): PROC sDie(): PROC sGameOver()
 ENDPROC
 
+#;
+#; Initialize State TITLE
+#;
 DEFPROC sTitle()
 PROC initGraphics()
 LOAD "title.sl2" LAYER 
@@ -88,7 +91,7 @@ IF %i&$10 THEN PROC state(sStart)
 ENDPROC
 
 #;
-#; Initialize for a new game
+#; Initialize State START
 #;
 DEFPROC sStart()
 PROC initGraphics()
@@ -110,7 +113,7 @@ PROC state(sWave)
 ENDPROC
 
 #;
-#; init state: new wave of enemies
+#; Initialize State WAVE
 #;
 DEFPROC sWave()
 %c=5
@@ -125,6 +128,9 @@ DEFPROC Wave()
 PROC state(sGame)
 ENDPROC
 
+#;
+#; Initialize State GAME
+#;
 DEFPROC sGame()
 ENDPROC
 
@@ -135,6 +141,9 @@ PROC display()
 PROC bomb()
 ENDPROC
 
+#;
+#; Initialize State DIE
+#;
 DEFPROC sDie()
 #; Lose a life
 timer = TIME
@@ -164,6 +173,9 @@ LAYER %0: PRINT AT %10,%10;"Game Over"
 LAYER %2,%1
 ENDPROC
 
+#;
+#; Initialize State GAMEOVER
+#;
 DEFPROC gameOver()
 PROC display()
 #; Wait for 2 seconds
