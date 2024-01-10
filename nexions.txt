@@ -70,7 +70,6 @@ GO TO @gameLoop
 #;
 DEFPROC state(newState)
 %s = newState
-proc dbg(%s)
 ON %s: proc sTitle(): PROC sStart(): PROC sWave(): PROC sNewWave(): PROC sSubWave(): PROC sGame(): PROC sDie(): PROC sGameOver()
 ENDPROC
 
@@ -161,6 +160,7 @@ ENDPROC
 #; Initialize State GAME
 #;
 DEFPROC sGame()
+timer = TIME
 ENDPROC
 
 DEFPROC game()
@@ -168,6 +168,8 @@ PROC handleInput()
 PROC update()
 PROC display()
 PROC bomb()
+#; No Enemies left, change state to sWave
+IF %c<1 THEN PROC state(sWave)
 ENDPROC
 
 #;
@@ -265,11 +267,13 @@ ENDPROC
 #; 
 DEFPROC update()
 FOR %i=%7 TO %9
-%h = SPRITE OVER (%i,%10 TO %20,%7,%7) 
+%h = SPRITE OVER (%i,%10 TO %19,%7,%7) 
 IF %h>0 THEN PROC destroyEnemy(%h,%i)
 NEXT %i
+
 #; If hit by a enemy missile, enter state die
 IF SPRITE OVER (%0,%20 TO %24,%7,%2) THEN PROC state(sDie) 
+
 ENDPROC 
 
 DEFPROC score()
@@ -305,9 +309,14 @@ BEEP .1,-5
 #; Update the score
 score+=50
 PROC score()
-#; No Enemies left, change state to sWave
-IF %c=0 THEN PROC state(sWave)
-ENDPROC 
+ENDPROC
+
+DEFPROC clearEnemies()
+FOR %i=%10 TO %19
+SPRITE %i,%0,%0,%0,%0: SPRITE %i+10,%0,%0,%0,%0
+NEXT %i
+ENDPROC
+
 
 #; 
 #; 
