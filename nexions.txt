@@ -5,7 +5,7 @@
 #; ----------------
 #; 
 #; %a - Fire button count, prevent user holding down fire
-#; %b
+#; %b - Pattern change counter
 #; %c - Enemy count
 #; %d
 #; %e
@@ -72,6 +72,7 @@ REM Nexions
 #; Constants for states
 sTitle, sStart, sWave, sNewWave, sSubWave, sGame, sDie, sGameOver=0,1,2,3,4,5,6,7
 PROC state(sTitle)
+PROC readData()
 
 
 #;-----------------------------
@@ -80,9 +81,9 @@ PROC state(sTitle)
 #;
 #;-----------------------------
 
-@gameLoop: 
+@g: 
 ON %s: proc title(): PROC start(): PROC wave(): PROC newWave(): PROC subWave(): PROC game(): PROC die(): PROC gameOver()
-GO TO @gameLoop
+GO TO @g
 
 
 #;
@@ -156,7 +157,7 @@ ENDPROC
 #; 
 DEFPROC sNewWave() 
 PROC display()
-LAYER %0: PRINT AT %10,%10;%w;". Invasion"
+LAYER %0: PRINT AT %10,%10;title$(%w)
 LAYER %2,%1
 ENDPROC
 #; 
@@ -165,7 +166,7 @@ ENDPROC
 DEFPROC newWave() 
 PROC display()
 IF (TIME-timer)<50 THEN ENDPROC
-LAYER %0: PRINT AT %10,%10;"                   "
+LAYER %0: PRINT AT %10,%10;"                "
 LAYER %2,%1
 PROC state(sSubWave)
 ENDPROC
@@ -184,8 +185,10 @@ DEFPROC subWave()
 PROC display()
 %c=%v
 FOR %i=%1 TO %v
-SPRITE %9+i,%30 + RND 200,%30 + RND 100,%5,%1
-SPRITE CONTINUE %9+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN ,%7,%0
+#; Get enemy sprite pattern
+%j = %p(w)
+SPRITE %9+i,%30 + RND 200,%30 + RND 100,%j,%1
+SPRITE CONTINUE %9+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN ,%j TO %j+1,%0
 NEXT %i
 %v = %v + 2
 IF %v>9 THEN %w+=1 : %v=5
@@ -314,7 +317,10 @@ ENDPROC
 DEFPROC display()
 %l-=1
 IF %l=-1 THEN %l=191
-SPRITE %0,%x,%y,%0,%@1101
+
+#! Update player sprite position and pattern
+SPRITE %0,%x,%y,%8,%1
+
 SPRITE MOVE INT 
 LAYER AT %0,%l
 ENDPROC 
@@ -358,8 +364,8 @@ DEFPROC fire()
 #; Exit if 3 missiles flying
 IF SPRITE 9 THEN ENDPROC
 BEEP .1,0
-SPRITE %m,%x,%200,%4,1
-SPRITE CONTINUE %m,%x,%0 TO %200 STEP -8 RUN,%4,%3
+SPRITE %m,%x,%200,%36,1
+SPRITE CONTINUE %m,%x,%0 TO %200 STEP -8 RUN,%36 TO %37,%3
 %m+=%1: IF %m>9 THEN %m=%7
 ENDPROC 
 
@@ -411,5 +417,32 @@ DEFPROC dbg(%i)
 LAYER %0: PRINT AT %21,%0;%i
 LAYER %2,%1
 ENDPROC
+
+
+DEFPROC readData()
+DIM title$(11,15)
+RESTORE @Wave
+FOR %i=1 TO 11
+READ title$(%i),%p(i)
+NEXT %i
+ENDPROC
+
+#;-----------------------------
+#;
+#; WAVE DATA
+#;
+#;-----------------------------
+@Wave
+DATA "1. The Invasion",%12
+DATA "2. Flagship",%16
+DATA "3. Whoovians",%14
+DATA "4. Coa Monster",%26
+DATA "5. Brain Wave",%22
+DATA "6. Spectres",%20
+DATA "7. Golden Age",%32
+DATA "8. !#$! OFF",%18
+DATA "9. Scorpio",%30
+DATA "10. Space Lair",%24
+DATA "Kill Screen",%28
 
 #autoline
