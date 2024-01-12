@@ -7,7 +7,7 @@
 #; %a - Fire button count, prevent user holding down fire
 #; %b - Pattern change counter
 #; %c - Enemy count
-#; %d
+#; %d - Enemy sprite pattern
 #; %e
 #; %f
 #; %g
@@ -83,6 +83,7 @@ PROC readData()
 
 @g: 
 ON %s: proc title(): PROC start(): PROC wave(): PROC newWave(): PROC subWave(): PROC game(): PROC die(): PROC gameOver()
+PROC anim()
 GO TO @g
 
 
@@ -189,9 +190,10 @@ ENDPROC
 DEFPROC subWave() 
 PROC display()
 %c=%v
+%d=%p(w)
 FOR %i=%1 TO %v
-SPRITE %9+i,%30 + RND 200,%30 + RND 100,%p(w),%1
-SPRITE CONTINUE %9+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN,%p(w),%0
+SPRITE %9+i,%30 + RND 200,%30 + RND 120,%d,%1
+SPRITE CONTINUE %9+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN,%d,%0
 NEXT %i
 %v = %v + 2
 IF %v>9 THEN %w+=1 : %v=5
@@ -341,7 +343,6 @@ NEXT %i
 #; Return true if player has been hit
 ENDPROC = SPRITE OVER (%0,%20 TO %29,%7,%2)
 
-
 #; 
 #; *** UPDATE SCORE ***
 #; 
@@ -350,6 +351,22 @@ LAYER %0: PRINT AT %0,%0;score
 LAYER %2,%1
 ENDPROC 
 
+
+
+#; 
+#; *** ANIMATE ENEMY SPRITES ***
+#; Cannot use SPRITE CONTINUE to automate the pattern change
+#; as it is been updated to quickly, (set a rate will slow movement)
+#; So need manually change the pattern every 10 calls
+DEFPROC anim() 
+%b+=1: IF (%b<>10) AND (%b<>20) THEN ENDPROC
+%j=%d
+IF %b=20 THEN %j+=1 :%b=0
+
+FOR %i=%10 TO %19
+SPRITE CONTINUE %i,,,%j
+NEXT %i
+ENDPROC
 
 #; 
 #; *** UPDATE LIVES ***
@@ -417,7 +434,7 @@ ENDPROC
 #; *** DEBUG PRINT ***
 #; 
 DEFPROC dbg(%i)
-LAYER %0: PRINT AT %21,%0;%i
+LAYER %0: PRINT AT %21,%0;%i;"    "
 LAYER %2,%1
 ENDPROC
 
