@@ -227,6 +227,12 @@ DEFPROC sDie()
 timer = TIME
 lives-=1
 PROC lives()
+#;Show ship explosion patterns
+#;Patterns 48 to 53
+#;Flags Disable when reach limit and update when stationary
+#;Rate every 10 calls, delay 5 calls
+SPRITE %0,%x,%y,%48,%1
+SPRITE CONTINUE %0,,,%48 TO %53,$60,%5,%5
 ENDPROC
 #; 
 #; *** STATE: DIE ***
@@ -244,7 +250,12 @@ IF (TIME-timer)< 100 THEN ENDPROC
 %m, %a = %7,%0
 
 #; Back to the game
-IF lives=0 THEN PROC state(sGameOver) : ELSE PROC state(sGame)
+IF lives=0 THEN PROC state(sGameOver) : ENDPROC
+#;New ship
+SPRITE %0,%x,%y,%9,%1
+SPRITE CONTINUE %0,,,%8 TO %9,$4,%3,%0
+
+PROC state(sGame)
 ENDPROC
 
 
