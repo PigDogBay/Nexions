@@ -1,7 +1,7 @@
 # Nexions
 ZX Spectrum Next Shoot'em Up with inspiration from the golden age of games
   \
-You can download the latest binary package from the Releases page, grab the Nexions.run.zip and unzip onto you Next SD Card. Using the Next browser click on Nexions.run
+You can download the latest binary package from the Releases page, grab the Nexions.run.zip and unzip onto you Next SD Card. Using the Next browser click on Nexions.run. To play, you can use keyboard (OP-Space) or Kempston joystick.
 
 To build,   \
 Unzip the latest source code release and copy the nexions folder to your home (or games) directory on the Next SD Card
