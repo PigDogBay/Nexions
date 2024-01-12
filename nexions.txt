@@ -355,14 +355,15 @@ ENDPROC
 
 #; 
 #; *** ANIMATE ENEMY SPRITES ***
+#;
 #; Cannot use SPRITE CONTINUE to automate the pattern change
 #; as it is been updated to quickly, (set a rate will slow movement)
 #; So need manually change the pattern every 10 calls
+#;
 DEFPROC anim() 
 %b+=1: IF (%b<>10) AND (%b<>20) THEN ENDPROC
 %j=%d
 IF %b=20 THEN %j+=1 :%b=0
-
 FOR %i=%10 TO %19
 SPRITE CONTINUE %i,,,%j
 NEXT %i
