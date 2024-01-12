@@ -190,10 +190,8 @@ DEFPROC subWave()
 PROC display()
 %c=%v
 FOR %i=%1 TO %v
-#; Get enemy sprite pattern
-%j = %p(w)
-SPRITE %9+i,%30 + RND 200,%30 + RND 100,%j,%1
-SPRITE CONTINUE %9+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN ,%j TO %j+1,%0
+SPRITE %9+i,%30 + RND 200,%30 + RND 100,%p(w),%1
+SPRITE CONTINUE %9+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN,%p(w),%0
 NEXT %i
 %v = %v + 2
 IF %v>9 THEN %w+=1 : %v=5
