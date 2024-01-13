@@ -172,7 +172,7 @@ ENDPROC
 DEFPROC newWave() 
 PROC display()
 IF (TIME-timer)<50 THEN ENDPROC
-LAYER %0: PRINT AT %10,%10;"                "
+LAYER %0: PRINT AT %10,%10;"                 "
 LAYER %2,%1
 PROC state(sSubWave)
 ENDPROC
@@ -227,6 +227,7 @@ DEFPROC sDie()
 timer = TIME
 lives-=1
 PROC lives()
+
 #;Show ship explosion patterns
 #;Patterns 48 to 53
 #;Flags Disable when reach limit and update when stationary
@@ -234,6 +235,8 @@ PROC lives()
 SPRITE %0,%x,%y,%48,%1
 SPRITE CONTINUE %0,,,%48 TO %53,$60,%5,%5
 ENDPROC
+
+
 #; 
 #; *** STATE: DIE ***
 #; 
@@ -452,9 +455,9 @@ ENDPROC
 
 
 DEFPROC readData()
-DIM title$(11,15)
+DIM title$(11,16)
 RESTORE @Wave
-FOR %i=1 TO 11
+FOR %i=1 TO 13
 READ title$(%i),%p(i)
 NEXT %i
 ENDPROC
@@ -472,9 +475,11 @@ DATA "4. Coa Monster",%26
 DATA "5. Brain Wave",%22
 DATA "6. Spectres",%20
 DATA "7. Golden Age",%32
-DATA "8. !#$! OFF",%18
+DATA "8. !#$! Q",%18
 DATA "9. Scorpio",%30
-DATA "10. Space Lair",%24
+DATA "10. Nemesis",%10
+DATA "11. Sausage Time",%54
+DATA "12. Space Lair",%24
 DATA "Kill Screen",%28
 
 #autoline
