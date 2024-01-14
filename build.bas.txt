@@ -1,9 +1,9 @@
-#prog build
+#program build
 #autoline 10,10
 
 .sync
 cd "C:/home/nexions"
 print "Converting to BASIC"
-.txt2bas "nexions.txt"
-.txt2bas "starfield.txt"
+.txt2bas "nexions.bas.txt"
+.txt2bas "starfield.bas.txt"
 load "nexions.bas"
