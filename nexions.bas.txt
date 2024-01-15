@@ -234,6 +234,7 @@ PROC lives()
 SPRITE %0,%x,%y,%48,%1
 SPRITE CONTINUE %0,,,%48 TO %53,$60,%5,%5
 DRIVER %49,%2,%22
+PROC clearBombs()
 ENDPROC
 
 
@@ -440,6 +441,11 @@ SPRITE %i,%0,%0,%0,%0: SPRITE %i+10,%0,%0,%0,%0
 NEXT %i
 ENDPROC
 
+DEFPROC clearBombs()
+FOR %i=%20 TO %29
+SPRITE %i,%0,%0,%0,%0
+NEXT %i
+ENDPROC
 
 #; 
 #; *** ENEMY BOMB ***
