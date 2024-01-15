@@ -328,8 +328,8 @@ ENDPROC
 #; 
 DEFPROC handleInput()
 %i = INPUT 1| INPUT 0
-IF %i&1 THEN %x+=2
-IF %i&2 THEN %x-=2
+IF %i&1 THEN %x+=3
+IF %i&2 THEN %x-=3
 #; Prevent user holding down the fire button
 IF %i&$10 THEN %a+=1 : ELSE %a=0
 IF %a=1 THEN PROC fire()
