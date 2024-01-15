@@ -454,7 +454,7 @@ IF %w < RND (k+75) THEN GO TO @noBomb
 %j = SPRITE AT (sId,%1)
 SPRITE bId,%i,%j,%5,%1
 %k=%w>>2 + 4
-SPRITE CONTINUE bId,,%0 TO 210 STEP %k RUN ,%5,%3
+SPRITE CONTINUE bId,,%0 TO 225 STEP %k RUN ,%5,%3
 @noBomb: %e+=1: IF %e=9 THEN %e=%0
 ENDPROC 
 
