@@ -69,6 +69,9 @@
 RUN AT 3
 REM MPD Bailey 4 Jan 2024
 REM Nexions
+
+PROC initSnd()
+
 #; Constants for states
 sTitle, sStart, sWave, sNewWave, sSubWave, sGame, sDie, sGameOver=0,1,2,3,4,5,6,7
 PROC state(sTitle)
@@ -81,7 +84,7 @@ PROC readData()
 #;
 #;-----------------------------
 
-@g: 
+@g 
 ON %s: proc title(): PROC start(): PROC wave(): PROC newWave(): PROC subWave(): PROC game(): PROC die(): PROC gameOver()
 PROC anim()
 GO TO @g
@@ -100,10 +103,8 @@ ENDPROC
 #; 
 DEFPROC sTitle()
 PROC initGraphics()
-LOAD "title.sl2" LAYER 
-FOR i=0 TO 10
-BEEP .1,-10 + i:BEEP .1,-20 + i:BEEP .1,-30 + i
-NEXT i
+LOAD "title.sl2" LAYER
+DRIVER %49,%2,%2
 ENDPROC
 #; 
 #; *** STATE: TITLE ***
@@ -124,10 +125,7 @@ PROC initGraphics()
 %w,%v=1,5
 lives=3
 score=0
-LOAD "stars.sl2" LAYER 
-FOR i=16 TO -16 STEP -1
-BEEP .1,i
-NEXT i
+LOAD "stars.sl2" LAYER
 ENDPROC
 #; 
 #; *** ENTER STATE: START***
@@ -162,6 +160,7 @@ ENDPROC
 #; *** ENTER STATE: NEW WAVE***
 #; 
 DEFPROC sNewWave() 
+DRIVER %49,%2,%5
 PROC display()
 LAYER %0: PRINT AT %10,%10;title$(%w)
 LAYER %2,%1
@@ -234,6 +233,7 @@ PROC lives()
 #;Rate every 10 calls, delay 5 calls
 SPRITE %0,%x,%y,%48,%1
 SPRITE CONTINUE %0,,,%48 TO %53,$60,%5,%5
+DRIVER %49,%2,%22
 ENDPROC
 
 
@@ -244,7 +244,6 @@ DEFPROC die()
 PROC display()
 
 #; Wait for 2 seconds
-BEEP 0.05,RND(30)-60
 IF (TIME-timer)< 100 THEN ENDPROC 
 #; Reset the ship positions
 %x=%152
@@ -313,6 +312,16 @@ SPRITE STOP
 
 ENDPROC 
 
+#; Set up AY sound driver and load sound effects
+#; If driver is already installed, will throw an error
+#; So this code will catch and ignore the error
+DEFPROC initSnd()
+    ON ERROR ENDPROC  
+    .install "ayfx.drv"
+    BANK NEW %i
+    LOAD "sfx.afb" BANK %i
+    DRIVER 49,1,%i
+ENDPROC
 
 #; 
 #; *** HANDLE INPUT ***
@@ -398,8 +407,8 @@ ENDPROC
 DEFPROC fire()
 #; Exit if 3 missiles flying
 IF SPRITE 9 THEN ENDPROC
-BEEP .1,0
-SPRITE %m,%x,%200,%36,1
+DRIVER %49,%2,%11
+SPRITE %m,%x,%200,%36,%1
 SPRITE CONTINUE %m,%x,%0 TO %200 STEP -8 RUN,%36 TO %37,%3
 %m+=%1: IF %m>9 THEN %m=%7
 ENDPROC 
@@ -411,7 +420,7 @@ ENDPROC
 DEFPROC destroyEnemy(%s,%b)
 SPRITE %s,%0,%0,%0,%0: SPRITE %b,%0,%0,%0,%0
 %c-=%1
-BEEP .1,-5
+DRIVER %49,%2,%21
 #; Update the score
 score+=50
 PROC score()
