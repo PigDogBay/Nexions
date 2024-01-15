@@ -461,24 +461,22 @@ ENDPROC
 #; Defender style explosion for enemies
 #;
 DEFPROC bang(%x,%y)
-for %i=%0 TO %19 STEP %4
-SPRITE %i+50,%x,%y,42,1
-SPRITE %i+51,%x,%y,43,1
-SPRITE %i+52,%x,%y,44,1
-SPRITE %i+53,%x,%y,45,1
-%j=%1+ RND 15
-%k=%15-j
-SPRITE CONTINUE %i+50,0 TO %x  STEP %SGN{-j} RUN, 0 TO %y STEP %SGN{-k} RUN, 42 TO 46,3
-%j=%1+ RND 15
-%k=%15 - j
-SPRITE CONTINUE %i+51,%x TO 256 STEP %j RUN, %y TO 192 STEP %k RUN, 42 TO 46,3
-%j=%1+ RND 15
-%k=%15 - j
-SPRITE CONTINUE %i+52,%x TO 256 STEP %j RUN, 0 TO %y STEP %SGN{-k} RUN, 42 TO 46,3
-%j=%1+ RND 15
-%k=%15 - j
-SPRITE CONTINUE %i+53,0 TO %x STEP % SGN {-j} RUN ,%y TO 192 STEP %k RUN ,42 TO 46,3
-NEXT %i
+SPRITE 50,%x,%y,42,1
+SPRITE 51,%x,%y,42,1
+SPRITE 52,%x,%y,42,1
+SPRITE 53,%x,%y,42,1
+%j=%1+ RND 10
+%k=%10-j
+SPRITE CONTINUE 50,0 TO %x  STEP %SGN{-j} RUN, 0 TO %y STEP %SGN{-k} RUN, 42,3
+%j=%1+ RND 10
+%k=%10 - j
+SPRITE CONTINUE 51,%x TO 256 STEP %j RUN, %y TO 192 STEP %k RUN, 42,3
+%j=%1+ RND 10
+%k=%10 - j
+SPRITE CONTINUE 52,%x TO 256 STEP %j RUN, 0 TO %y STEP %SGN{-k} RUN, 42,3
+%j=%1+ RND 10
+%k=%10 - j
+SPRITE CONTINUE 53,0 TO %x STEP % SGN {-j} RUN ,%y TO 192 STEP %k RUN ,42,3
 ENDPROC
 
 #; 
