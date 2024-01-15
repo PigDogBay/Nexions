@@ -496,9 +496,9 @@ ENDPROC
 
 
 DEFPROC readData()
-DIM title$(18,18)
+DIM title$(20,18)
 RESTORE @Wave
-FOR %i=1 TO 18
+FOR %i=1 TO 20
 READ title$(%i),%p(i)
 NEXT %i
 ENDPROC
