@@ -447,11 +447,12 @@ ENDPROC
 DEFPROC bomb()
 sId = %e+10:bId=%e+20
 IF NOT SPRITE sId OR SPRITE bId THEN GO TO @noBomb
-IF % RND 20<>5 THEN GO TO @noBomb
+IF %w < (RND 100) THEN GO TO @noBomb
 %i = SPRITE AT (sId,%0)
 %j = SPRITE AT (sId,%1)
 SPRITE bId,%i,%j,%5,%1
-SPRITE CONTINUE bId,,%0 TO 210 STEP 2 RUN ,%5,%3
+%k=%w>>2 + 4
+SPRITE CONTINUE bId,,%0 TO 210 STEP %k RUN ,%5,%3
 @noBomb: %e+=1: IF %e=10 THEN %e=%0
 ENDPROC 
 
