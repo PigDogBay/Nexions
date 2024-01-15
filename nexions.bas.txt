@@ -447,8 +447,10 @@ ENDPROC
 DEFPROC bomb()
 sId = %e+10:bId=%e+20
 IF NOT SPRITE sId OR SPRITE bId THEN GO TO @noBomb
-IF %w < (RND 100) THEN GO TO @noBomb
-%i = SPRITE AT (sId,%0)
+%i= SPRITE AT (sId,%0)
+#;More chance of dropping bomb closer to enemy
+IF %x>i THEN %k=%x-i:ELSE %k=%i-x
+IF %w < RND (k+75) THEN GO TO @noBomb
 %j = SPRITE AT (sId,%1)
 SPRITE bId,%i,%j,%5,%1
 %k=%w>>2 + 4
