@@ -468,22 +468,22 @@ ENDPROC
 #; Defender style explosion for enemies
 #;
 DEFPROC bang(%x,%y)
-SPRITE 50,%x,%y,42,1
-SPRITE 51,%x,%y,42,1
-SPRITE 52,%x,%y,42,1
-SPRITE 53,%x,%y,42,1
+SPRITE 50,%x,%y,43,1
+SPRITE 51,%x,%y,43,1
+SPRITE 52,%x,%y,43,1
+SPRITE 53,%x,%y,43,1
 %j=%1+ RND 10
 %k=%10-j
-SPRITE CONTINUE 50,0 TO %x  STEP %SGN{-j} RUN, 0 TO %y STEP %SGN{-k} RUN, 42,3
+SPRITE CONTINUE 50,0 TO %x  STEP %SGN{-j} RUN, 0 TO %y STEP %SGN{-k} RUN, 43,3
 %j=%1+ RND 10
 %k=%10 - j
-SPRITE CONTINUE 51,%x TO 256 STEP %j RUN, %y TO 192 STEP %k RUN, 42,3
+SPRITE CONTINUE 51,%x TO 256 STEP %j RUN, %y TO 192 STEP %k RUN, 43,3
 %j=%1+ RND 10
 %k=%10 - j
-SPRITE CONTINUE 52,%x TO 256 STEP %j RUN, 0 TO %y STEP %SGN{-k} RUN, 42,3
+SPRITE CONTINUE 52,%x TO 256 STEP %j RUN, 0 TO %y STEP %SGN{-k} RUN, 43,3
 %j=%1+ RND 10
 %k=%10 - j
-SPRITE CONTINUE 53,0 TO %x STEP % SGN {-j} RUN ,%y TO 192 STEP %k RUN ,42,3
+SPRITE CONTINUE 53,0 TO %x STEP % SGN {-j} RUN ,%y TO 192 STEP %k RUN ,43,3
 ENDPROC
 
 #; 
@@ -514,7 +514,7 @@ DATA "2. Flagship",%16
 DATA "3. Whoovians",%14
 DATA "4. Coa Monster",%26
 DATA "5. Brain Wave",%22
-DATA "6. Spectres",%20
+DATA "6. Sausage Time",%54
 DATA "7. Nemesis",%10
 DATA "8. Golden Age",%32
 DATA "9. Full Spectrum",%56
@@ -523,9 +523,11 @@ DATA "11. Little Acorns",%58
 DATA "12. RTM",%0
 DATA "13. Squid Game",%6
 DATA "14. !#$! Q",%18
-DATA "15. Scorpio",%30
-DATA "16. Sausage Time",%54
-DATA "17. Space Lair",%24
-DATA "Kill Screen",%28
+DATA "15. Brain Freeze",%22
+DATA "16. Scorpio",%30
+DATA "17. Spectres",%20
+DATA "18. Doh",%60
+DATA "19. Space Lair",%24
+DATA "20. Doomed",%28
 
 #autoline
