@@ -8,7 +8,7 @@
 #; %b - Pattern change counter
 #; %c - Enemy count
 #; %d - Enemy sprite pattern
-#; %e
+#; %e - Bomb count
 #; %f
 #; %g - tmp
 #; %h - tmp
@@ -445,16 +445,14 @@ ENDPROC
 #; *** ENEMY BOMB ***
 #; 
 DEFPROC bomb()
-PRIVATE bomb=0
-LOCAL %x,%y 
-sId = bomb+10:bId=20+bomb
+sId = %e+10:bId=%e+20
 IF NOT SPRITE sId OR SPRITE bId THEN GO TO @noBomb
 IF % RND 20<>5 THEN GO TO @noBomb
-%x = SPRITE AT (sId,0)
-%y = SPRITE AT (sId,1)
-SPRITE bId,%x,%y,%5,1
-SPRITE CONTINUE bId,,%x TO 200 STEP 2 RUN ,%5,3
-@noBomb: bomb+=1: IF bomb=9 THEN bomb=0
+%i = SPRITE AT (sId,%0)
+%j = SPRITE AT (sId,%1)
+SPRITE bId,%i,%j,%5,%1
+SPRITE CONTINUE bId,,%0 TO 210 STEP 2 RUN ,%5,%3
+@noBomb: %e+=1: IF %e=10 THEN %e=%0
 ENDPROC 
 
 #;
