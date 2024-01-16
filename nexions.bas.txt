@@ -452,18 +452,20 @@ ENDPROC
 #; *** ENEMY BOMB ***
 #; 
 DEFPROC bomb()
-sId = %e+10:bId=%e+20
-IF NOT SPRITE sId OR SPRITE bId THEN GO TO @noBomb
+sId = %e+10:bId=%e+20:%e+=1: IF %e=10 THEN %e=%0
+IF NOT SPRITE sId OR SPRITE bId THEN ENDPROC
 %i= SPRITE AT (sId,%0)
 #;More chance of dropping bomb closer to enemy
 IF %x>i THEN %k=%x-i:ELSE %k=%i-x
-IF %w < RND (k+75) THEN GO TO @noBomb
+IF %w < RND (k+75) THEN ENDPROC
 %j = SPRITE AT (sId,%1)
 SPRITE bId,%i,%j,%5,%1
 %k=%w>>2 + 4
 SPRITE CONTINUE bId,,%0 TO 225 STEP %k RUN ,%5,%3
-@noBomb: %e+=1: IF %e=10 THEN %e=%0
 ENDPROC 
+#;IF sId=19 AND %i > 200
+#;Drop a bouncing bomb
+#;ENDIF
 
 #;
 #; Defender style explosion for enemies
