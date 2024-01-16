@@ -152,9 +152,7 @@ ENDPROC
 #; 
 #; *** ENTER STATE: WAVE ***
 #; 
-DEFPROC Wave()
-ENDPROC
-
+DEFPROC Wave() :ENDPROC
 
 #; 
 #; *** ENTER STATE: NEW WAVE***
@@ -205,7 +203,9 @@ ENDPROC
 #; 
 #; *** ENTER STATE: GAME ***
 #; 
-DEFPROC sGame():ENDPROC
+DEFPROC sGame()
+PROC display():PROC clearBombs()
+ENDPROC
 #; 
 #; *** ENTER STATE: GAME ***
 #; 
