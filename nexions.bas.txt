@@ -58,11 +58,11 @@
 #; 
 #; 0 - Player ship
 #; 7,8,9 - Player bullets
-#; 10-19 - Enemies
-#; 20-29 - Enemy Bombs
-#; 50-69 - Enemy explosions
-#; 
-#; 
+#; 10-18 - Enemies
+#; 19 - Mothership
+#; 20-28 - Enemy Bombs
+#; 29 - Bouncing bomb
+#; 50-53 - Enemy explosions
 #; 
 #; 
 
@@ -194,8 +194,11 @@ FOR %i=%1 TO %v
 SPRITE %9+i,%30 + RND 200,%30 + RND 120,%d,%1
 SPRITE CONTINUE %9+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN,%d,%0
 NEXT %i
-%v = %v + 2
-IF %v>9 THEN %w+=1 : %v=5
+#; Mother ship
+SPRITE %19,%16,%32,%34,%1
+SPRITE CONTINUE %19,%16 TO %304 STEP %2 RUN,,%34,%11,,%20+RND(100)
+%v+=2
+IF %v > 9 THEN %w+=1:%v=5
 PROC state(sGame)  
 ENDPROC
 
@@ -387,8 +390,9 @@ ENDPROC
 DEFPROC anim() 
 %b+=1: IF (%b<>10) AND (%b<>20) THEN ENDPROC
 %j=%d
-IF %b=20 THEN %j+=1 :%b=0
-FOR %i=%10 TO %19
+SPRITE CONTINUE %19,,,%34
+IF %b=20 THEN %j+=1 :%b=0:SPRITE CONTINUE %19,,,%35
+FOR %i=%10 TO %18
 SPRITE CONTINUE %i,,,%j
 NEXT %i
 ENDPROC
@@ -399,8 +403,7 @@ ENDPROC
 DEFPROC lives()
 LAYER %0: PRINT AT %0,%31;lives
 LAYER %2,%1
-ENDPROC 
-
+ENDPROC
 
 #; 
 #; *** PLAYER FIRE ***
@@ -424,7 +427,7 @@ DEFPROC destroyEnemy(%s,%b)
 %j= SPRITE AT (%s,1)
 PROC bang(%i,%j)
 SPRITE %s,%0,%0,%0,%0: SPRITE %b,%0,%0,%0,%0
-%c-=%1
+IF %s=19 THEN score+=450:DRIVER %49,%2,%1:ELSE %c-=%1
 DRIVER %49,%2,%21
 #; Update the score
 score+=50
