@@ -203,7 +203,7 @@ SPRITE %10,%16,%32,%34,%1
 SPRITE CONTINUE %10,%16 TO %304 STEP %2 RUN,,%34,%11,,%20+RND(100)
 %v+=2
 IF %v > 9 THEN %w+=1:%v=5
-IF %w=21 THEN %w=1
+IF %w=31 THEN %w=1
 PROC state(sGame)  
 ENDPROC
 
@@ -548,9 +548,9 @@ ENDPROC
 
 
 DEFPROC readData()
-DIM title$(20,18)
+DIM title$(30,18)
 RESTORE @Wave
-FOR %i=1 TO 20
+FOR %i=1 TO 30
 READ title$(%i),%p(i),%b(i)
 NEXT %i
 ENDPROC
@@ -562,24 +562,34 @@ ENDPROC
 #;-----------------------------
 @Wave
 DATA "The Invasion",%12,%3
+DATA "Venusian Spiders",%38,%3
 DATA "Flagship",%16,%3
-DATA "Whoovians",%14,%3
 DATA "Coa Monster",%26,%4
 DATA "Brain Wave",%22,%4
+DATA "Whoovians",%14,%4
 DATA "Sausage Time",%54,%4
 DATA "Nemesis",%10,%4
 DATA "Golden Age",%32,%4
-DATA "Full Spectrum",%56,%4
 DATA "Brain Drain",%22,%4
-DATA "Little Acorns",%58,%5
+DATA "Full Spectrum",%56,%4
 DATA "RTM",%0,%5
+DATA "Little Acorns",%58,%5
 DATA "Squid Game",%6,%5
-DATA "!#$! Q",%18,%5
-DATA "Brain Freeze",%22,%6
+DATA "Brain Freeze",%22,%5
+DATA "!#$! Q",%18,%6
 DATA "Scorpio",%30,%6
 DATA "Spectres",%20,%6
 DATA "Doh",%60,%6
-DATA "Space Lair",%24,%7
-DATA "Doomed",%28,%7
+DATA "Doomed",%28,%6
+DATA "Space Lair",%24,%6
+DATA "Squids In",%6,%7
+DATA "Hydra",%30,%7
+DATA "My Gal",%32,%7
+DATA "Brainiac",%22,%7
+DATA "Convoy Charger",%16,%3
+DATA "Act Mooners",%26,%7
+DATA "Lord Eugene",%24,%7
+DATA "Big Ed",%60,%6
+DATA "Kill Screen",%28,%7
 
 #autoline
