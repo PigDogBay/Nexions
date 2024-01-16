@@ -9,7 +9,7 @@
 #; %c - Enemy count
 #; %d - Enemy sprite pattern
 #; %e - Bomb count
-#; %f
+#; %f - Spider bomb counter
 #; %g - tmp
 #; %h - tmp
 #; %i - tmp
@@ -450,43 +450,61 @@ ENDPROC
 
 #; 
 #; *** ENEMY BOMB ***
+#; Temporary vars:
+#; %g - sprite id
+#; %h - bomb id
+#; %i - sprite x
+#; %j - sprite y
+#; %k - probability/step
+#; %f - spider bomb timer
+#;
+#; Global
+#; %x - player x pos
+#; %w - wave
 #; 
 DEFPROC bomb()
-sId = %e+10:bId=%e+20:%e+=1: IF %e=10 THEN %e=%0
-IF NOT SPRITE sId OR SPRITE bId THEN ENDPROC
-%i= SPRITE AT (sId,%0)
+%g=%e+10:%h=%e+20:%e+=1: IF %e=10 THEN %e=%0
+#;Deal with spider bomb
+IF %f=1 THEN SPRITE %29,%0,%0,%0,%0
+IF %f>0 THEN %f-=1
+ 
+#; Check if there is an enemy
+#; Does a bomb sprite already exist
+IF % NOT SPRITE g OR SPRITE h THEN ENDPROC
+%i= SPRITE AT (%g,%0)
+
+#;Drop a spider bomb
+IF %g=19 AND (i>200) THEN SPRITE %h,200,32,%39,%1:SPRITE CONTINUE %h,%32 to %255 STEP -2 RUN,%(w*2+100) TO %225 STEP %(w>>4+3) RUN,%38 TO %39,%0: %f=%(5*w+70):ENDPROC
+
 #;More chance of dropping bomb closer to enemy
 IF %x>i THEN %k=%x-i:ELSE %k=%i-x
 IF %w < RND (k+75) THEN ENDPROC
-%j = SPRITE AT (sId,%1)
-SPRITE bId,%i,%j,%5,%1
+%j = SPRITE AT (%g,%1)
+SPRITE %h,%i,%j,%5,%1
 %k=%w>>2 + 4
-SPRITE CONTINUE bId,,%0 TO 225 STEP %k RUN ,%5,%3
+SPRITE CONTINUE %h,,%0 TO 225 STEP %k RUN ,%5,%3
 ENDPROC 
-#;IF sId=19 AND %i > 200
-#;Drop a bouncing bomb
-#;ENDIF
 
 #;
 #; Defender style explosion for enemies
 #;
 DEFPROC bang(%x,%y)
-SPRITE 50,%x,%y,43,1
-SPRITE 51,%x,%y,43,1
-SPRITE 52,%x,%y,43,1
-SPRITE 53,%x,%y,43,1
+SPRITE 50,%x,%y,%43,%1
+SPRITE 51,%x,%y,%43,%1
+SPRITE 52,%x,%y,%43,%1
+SPRITE 53,%x,%y,%43,%1
 %j=%1+ RND 10
 %k=%10-j
-SPRITE CONTINUE 50,0 TO %x  STEP %SGN{-j} RUN, 0 TO %y STEP %SGN{-k} RUN, 43,3
+SPRITE CONTINUE %50,%0 TO %x  STEP %SGN{-j} RUN, %0 TO %y STEP %SGN{-k} RUN, %43,%3
 %j=%1+ RND 10
 %k=%10 - j
-SPRITE CONTINUE 51,%x TO 256 STEP %j RUN, %y TO 192 STEP %k RUN, 43,3
+SPRITE CONTINUE %51,%x TO %256 STEP %j RUN, %y TO %192 STEP %k RUN, %43,%3
 %j=%1+ RND 10
 %k=%10 - j
-SPRITE CONTINUE 52,%x TO 256 STEP %j RUN, 0 TO %y STEP %SGN{-k} RUN, 43,3
+SPRITE CONTINUE %52,%x TO %256 STEP %j RUN, %0 TO %y STEP %SGN{-k} RUN, %43,%3
 %j=%1+ RND 10
 %k=%10 - j
-SPRITE CONTINUE 53,0 TO %x STEP % SGN {-j} RUN ,%y TO 192 STEP %k RUN ,43,3
+SPRITE CONTINUE %53,%0 TO %x STEP % SGN {-j} RUN ,%y TO %192 STEP %k RUN ,%43,%3
 ENDPROC
 
 #; 
