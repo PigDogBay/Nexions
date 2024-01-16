@@ -167,6 +167,7 @@ ENDPROC
 #; *** ENTER STATE: NEW WAVE ***
 #; 
 DEFPROC newWave() 
+PROC handleInput()
 PROC display()
 IF (TIME-timer)<50 THEN ENDPROC
 LAYER %0: PRINT AT %10,%10;"                 "
@@ -185,7 +186,9 @@ ENDPROC
 #; *** ENTER STATE: SUBWAVE ***
 #; 
 DEFPROC subWave() 
+PROC handleInput()
 PROC display()
+IF (TIME-timer)<25 THEN ENDPROC
 %c=%v
 %d=%p(w)
 FOR %i=%1 TO %v
