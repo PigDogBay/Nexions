@@ -74,7 +74,7 @@
 
 RUN AT 3
 #; Constants for states
-sTitle, sStart, sWave, sNewWave, sSubWave, sGame, sDie, sGameOver=0,1,2,3,4,5,6,7
+sTitle, sStart, sWave, sNewWave, sSubWave, sGame, sDie, sInvuln, sGameOver=0,1,2,3,4,5,6,7,8
 PROC initSnd():PROC state(sTitle):PROC readData()
 
 #;-----------------------------
@@ -84,7 +84,7 @@ PROC initSnd():PROC state(sTitle):PROC readData()
 #;-----------------------------
 
 @g 
-ON %s: proc title(): PROC start(): PROC wave(): PROC newWave(): PROC subWave(): PROC game(): PROC die(): PROC gameOver()
+ON %s: proc title(): PROC start(): PROC wave(): PROC newWave(): PROC subWave(): PROC game(): PROC die(): PROC invuln():PROC gameOver()
 PROC anim():GO TO @g
 
 
@@ -93,7 +93,7 @@ PROC anim():GO TO @g
 #;
 DEFPROC state(newState)
 %s = newState
-ON %s: proc sTitle(): PROC sStart(): PROC sWave(): PROC sNewWave(): PROC sSubWave(): PROC sGame(): PROC sDie(): PROC sGameOver()
+ON %s: proc sTitle(): PROC sStart(): PROC sWave(): PROC sNewWave(): PROC sSubWave(): PROC sGame(): PROC sDie(): PROC sInvuln():PROC sGameOver()
 ENDPROC
 
 #; 
@@ -120,7 +120,7 @@ ENDPROC
 DEFPROC sStart()
 PROC initGraphics()
 %x,%y,%l,%m,%a=%152,%208,%0,%7,%0
-%w,%v=1,5
+%w,%v=19,5
 lives=3
 score=0
 LOAD "stars.sl2" LAYER
@@ -227,6 +227,23 @@ IF %c<1 THEN PROC state(sWave)
 ENDPROC
 
 #; 
+#; *** ENTER STATE: Invulnerability ***
+#; Clear any bombs and spider bomb
+DEFPROC sInvuln()
+PROC clearBombs():SPRITE %20,%0,%0,%0,%0:timer= TIME
+ENDPROC
+#; 
+#; *** ENTER STATE: Invulnerability ***
+#; No bombs
+#; 
+DEFPROC invuln()
+PROC display()
+PROC handleInput()
+PROC colDet()
+IF (TIME-timer)>75 THEN PROC state(sGame)
+ENDPROC
+
+#; 
 #; *** ENTER STATE: DIE ***
 #; 
 DEFPROC sDie()
@@ -266,7 +283,7 @@ IF lives=0 THEN PROC state(sGameOver) : ENDPROC
 SPRITE %0,%x,%y,%9,%1
 SPRITE CONTINUE %0,,,%8 TO %9,$4,%3,%0
 
-PROC state(sGame)
+PROC state(sInvuln)
 ENDPROC
 
 
