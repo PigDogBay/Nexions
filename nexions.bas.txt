@@ -75,7 +75,7 @@
 RUN AT 3
 #; Constants for states
 sTitle, sStart, sWave, sNewWave, sSubWave, sGame, sDie, sInvuln, sGameOver=0,1,2,3,4,5,6,7,8
-PROC initSnd():PROC state(sTitle):PROC readData()
+PROC initSnd():PROC font():PROC state(sTitle):PROC readData()
 
 #;-----------------------------
 #;
@@ -539,6 +539,11 @@ ENDPROC
 DEFPROC dbg(%i)
 LAYER %0: PRINT AT %21,%0;%i;"    "
 LAYER %2,%1
+ENDPROC
+
+DEFPROC font()
+LOAD "Reactor.ch8" CODE %$FA00,768
+POKE 23607,%$F9: POKE 23606,0:PRINT CHR$ 2
 ENDPROC
 
 
