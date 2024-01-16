@@ -1,5 +1,7 @@
 #program nexions
 #autoline 10,10
+#; MPD Bailey Technology 4 Jan 2024
+#; Nexions
 #; 
 #; GLOBAL VARIABLES
 #; ----------------
@@ -67,16 +69,9 @@
 #; 
 
 RUN AT 3
-REM MPD Bailey 4 Jan 2024
-REM Nexions
-
-PROC initSnd()
-
 #; Constants for states
 sTitle, sStart, sWave, sNewWave, sSubWave, sGame, sDie, sGameOver=0,1,2,3,4,5,6,7
-PROC state(sTitle)
-PROC readData()
-
+PROC initSnd():PROC state(sTitle):PROC readData()
 
 #;-----------------------------
 #;
@@ -86,8 +81,7 @@ PROC readData()
 
 @g 
 ON %s: proc title(): PROC start(): PROC wave(): PROC newWave(): PROC subWave(): PROC game(): PROC die(): PROC gameOver()
-PROC anim()
-GO TO @g
+PROC anim():GO TO @g
 
 
 #;
