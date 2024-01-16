@@ -58,10 +58,10 @@
 #; 
 #; 0 - Player ship
 #; 7,8,9 - Player bullets
-#; 10-18 - Enemies
-#; 19 - Mothership
-#; 20-28 - Enemy Bombs
-#; 29 - Bouncing bomb
+#; 10 - Mothership
+#; 11-19 - Enemies
+#; 20 - Spider bomb
+#; 21-29 - Enemy Bombs
 #; 50-53 - Enemy explosions
 #; 
 #; 
@@ -191,12 +191,12 @@ PROC display()
 %c=%v
 %d=%p(w)
 FOR %i=%1 TO %v
-SPRITE %9+i,%30 + RND 200,%30 + RND 120,%d,%1
-SPRITE CONTINUE %9+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN,%d,%0
+SPRITE %10+i,%30 + RND 200,%30 + RND 120,%d,%1
+SPRITE CONTINUE %10+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN,%d,%0
 NEXT %i
 #; Mother ship appears after random delay
-SPRITE %19,%16,%32,%34,%1
-SPRITE CONTINUE %19,%16 TO %304 STEP %2 RUN,,%34,%11,,%20+RND(100)
+SPRITE %10,%16,%32,%34,%1
+SPRITE CONTINUE %10,%16 TO %304 STEP %2 RUN,,%34,%11,,%20+RND(100)
 %v+=2
 IF %v > 9 THEN %w+=1:%v=5
 PROC state(sGame)  
@@ -345,14 +345,9 @@ ENDPROC
 #; 
 #;Scroll star field downwards and move sprites 
 DEFPROC display()
-%l-=1
-IF %l=-1 THEN %l=191
-
+%l-=1:IF %l=-1 THEN %l=191
 #! Update player sprite position and pattern
-SPRITE %0,%x,%y
-
-SPRITE MOVE INT 
-LAYER AT %0,%l
+SPRITE %0,%x,%y:SPRITE MOVE INT:LAYER AT %0,%l
 ENDPROC 
 
 
@@ -361,7 +356,7 @@ ENDPROC
 #; 
 DEFPROC colDet()
 FOR %i=%7 TO %9
-%h = SPRITE OVER (%i,%10 TO %19,%7,%7) 
+%h = SPRITE OVER (%i,%10 TO %20,%7,%7) 
 IF %h>0 THEN PROC destroyEnemy(%h,%i)
 NEXT %i
 
@@ -372,8 +367,7 @@ ENDPROC = SPRITE OVER (%0,%20 TO %29,%7,%2)
 #; *** UPDATE SCORE ***
 #; 
 DEFPROC score()
-LAYER %0: PRINT AT %0,%0;score
-LAYER %2,%1
+LAYER %0: PRINT AT %0,%0;score:LAYER %2,%1
 ENDPROC 
 
 
@@ -388,9 +382,11 @@ ENDPROC
 DEFPROC anim() 
 %b+=1: IF (%b<>10) AND (%b<>20) THEN ENDPROC
 %j=%d
-SPRITE CONTINUE %19,,,%34
-IF %b=20 THEN %j+=1 :%b=0:SPRITE CONTINUE %19,,,%35
-FOR %i=%10 TO %18
+#;Animate mothersip and spider
+SPRITE CONTINUE %10,,,%34:SPRITE CONTINUE %20,,,%38
+IF %b=20 THEN %j+=1:%b=0: SPRITE CONTINUE %10,,,%35: SPRITE CONTINUE %20,,,%39
+#;Animate enemies
+FOR %i=%11 TO %19
 SPRITE CONTINUE %i,,,%j
 NEXT %i
 ENDPROC
@@ -399,8 +395,7 @@ ENDPROC
 #; *** UPDATE LIVES ***
 #; 
 DEFPROC lives()
-LAYER %0: PRINT AT %0,%31;lives
-LAYER %2,%1
+LAYER %0: PRINT AT %0,%31;lives:LAYER %2,%1
 ENDPROC
 
 #; 
@@ -425,7 +420,14 @@ DEFPROC destroyEnemy(%s,%b)
 %j= SPRITE AT (%s,1)
 PROC bang(%i,%j)
 SPRITE %s,%0,%0,%0,%0: SPRITE %b,%0,%0,%0,%0
-IF %s=19 THEN score+=450:DRIVER %49,%2,%1:ELSE %c-=%1
+#;Spider bomb
+IF %s=20: score+=950: DRIVER %49,%2,%1
+#;Mothership
+ELSE IF %s=10:score+=450: DRIVER %49,%2,%1
+#;Decrease normal enemy count
+ELSE:%c-=%1
+ENDIF
+
 DRIVER %49,%2,%21
 #; Update the score
 score+=50
@@ -465,7 +467,7 @@ ENDPROC
 DEFPROC bomb()
 %g=%e+10:%h=%e+20:%e+=1: IF %e=10 THEN %e=%0
 #;Deal with spider bomb
-IF %f=1 THEN SPRITE %29,%0,%0,%0,%0
+IF %f=1 THEN SPRITE %20,%0,%0,%0,%0
 IF %f>0 THEN %f-=1
  
 #; Check if there is an enemy
@@ -474,7 +476,8 @@ IF % NOT SPRITE g OR SPRITE h THEN ENDPROC
 %i= SPRITE AT (%g,%0)
 
 #;Drop a spider bomb
-IF %g=19 AND (i>200) THEN SPRITE %h,200,32,%39,%1:SPRITE CONTINUE %h,%32 to %255 STEP -2 RUN,%(w*2+100) TO %225 STEP %(w>>4+3) RUN,%38 TO %39,%0: %f=%(5*w+70):ENDPROC
+IF %g=10 AND (i>250) THEN SPRITE %h,%i,32,%39,%1:SPRITE CONTINUE %h,%32 to %255 STEP -2 RUN,%(w*2+100) TO %225 STEP %(w>>4+3) RUN,%38 TO %39,%0: %f=%(5*w+70):ENDPROC
+IF %g=10 THEN ENDPROC
 
 #;More chance of dropping bomb closer to enemy
 IF %x>i THEN %k=%x-i:ELSE %k=%i-x
