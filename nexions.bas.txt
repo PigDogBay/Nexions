@@ -173,7 +173,7 @@ DEFPROC newWave()
 PROC handleInput()
 PROC display()
 IF (TIME-timer)<50 THEN ENDPROC
-LAYER %0: PRINT AT %10,%8;"                 "
+LAYER %0: PRINT AT %10,%8;"                      "
 LAYER %2,%1
 PROC state(sSubWave)
 ENDPROC
