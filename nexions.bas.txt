@@ -120,7 +120,7 @@ ENDPROC
 DEFPROC sStart()
 PROC initGraphics()
 %x,%y,%l,%m,%a=%152,%208,%0,%7,%0
-%w,%v=19,5
+%w,%v=1,5
 lives=3
 score=0
 LOAD "stars.sl2" LAYER
@@ -505,7 +505,7 @@ IF %g=10 THEN ENDPROC
 
 #;More chance of dropping bomb closer to enemy
 IF %x>i THEN %k=%x-i:ELSE %k=%i-x
-IF %w < RND (k+100) THEN ENDPROC
+IF %w < RND (k+80) THEN ENDPROC
 %j = SPRITE AT (%g,%1)
 SPRITE %h,%i,%j,%5,%1
 SPRITE CONTINUE %h,,%0 TO 225 STEP %b[w] RUN ,%5,%3
