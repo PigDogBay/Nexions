@@ -145,14 +145,19 @@ ENDPROC
 #; 
 #; *** ENTER STATE: WAVE ***
 #; 
-DEFPROC sWave()
-timer = TIME
-IF %v=5 THEN PROC state(sNewWave): ELSE PROC state(sSubWave)
-ENDPROC
+DEFPROC sWave():ENDPROC
 #; 
 #; *** ENTER STATE: WAVE ***
 #; 
-DEFPROC Wave() :ENDPROC
+DEFPROC Wave()
+PROC handleInput()
+PROC display()
+PROC colDet()
+#; Check if mothership from last wave has cleared
+IF % SPRITE 10 THEN ENDPROC
+timer = TIME
+IF %v=5 THEN PROC state(sNewWave): ELSE PROC state(sSubWave)
+ENDPROC
 
 #; 
 #; *** ENTER STATE: NEW WAVE***
