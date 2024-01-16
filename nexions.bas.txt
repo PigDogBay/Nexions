@@ -120,7 +120,7 @@ ENDPROC
 DEFPROC sStart()
 PROC initGraphics()
 %x,%y,%l,%m,%a=%152,%208,%0,%7,%0
-%w,%v=1,5
+%w,%v=0,5
 lives=3
 score=0
 LOAD "stars.sl2" LAYER
@@ -160,7 +160,9 @@ ENDPROC
 #; 
 #; *** ENTER STATE: NEW WAVE***
 #; 
-DEFPROC sNewWave() 
+DEFPROC sNewWave()
+%w+=1
+IF %w=31 THEN %w=1
 DRIVER %49,%2,%5
 PROC display()
 LAYER %0: PRINT AT %10,%8;%w;". ";title$(%w)
@@ -182,9 +184,7 @@ ENDPROC
 #; 
 #; *** ENTER STATE: SUBWAVE ***
 #; 
-DEFPROC sSubWave() 
-PROC display()
-ENDPROC
+DEFPROC sSubWave():PROC display():ENDPROC
 #; 
 #; *** ENTER STATE: SUBWAVE ***
 #; 
@@ -200,10 +200,8 @@ SPRITE CONTINUE %10+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN,%d,%0
 NEXT %i
 #; Mother ship appears after random delay
 SPRITE %10,%16,%32,%34,%1
-SPRITE CONTINUE %10,%16 TO %304 STEP %2 RUN,,%34,%11,,%20+RND(100)
-%v+=2
-IF %v > 9 THEN %w+=1:%v=5
-IF %w=31 THEN %w=1
+SPRITE CONTINUE %10,%16 TO %304 STEP %2 RUN ,,%34,%11,,%20+ RND (100)
+%v+=2: IF %v>9 THEN %v=%5
 PROC state(sGame)  
 ENDPROC
 
