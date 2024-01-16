@@ -22,7 +22,7 @@
 #; %p 
 #; %q
 #; %r
-#; %s - TODO Current State
+#; %s - Current State
 #; %t
 #; %u
 #; %v - Sub wave number of enemies: 5,7,9
@@ -194,7 +194,7 @@ FOR %i=%1 TO %v
 SPRITE %9+i,%30 + RND 200,%30 + RND 120,%d,%1
 SPRITE CONTINUE %9+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN,%d,%0
 NEXT %i
-#; Mother ship
+#; Mother ship appears after random delay
 SPRITE %19,%16,%32,%34,%1
 SPRITE CONTINUE %19,%16 TO %304 STEP %2 RUN,,%34,%11,,%20+RND(100)
 %v+=2
@@ -205,9 +205,7 @@ ENDPROC
 #; 
 #; *** ENTER STATE: GAME ***
 #; 
-DEFPROC sGame()
-timer = TIME
-ENDPROC
+DEFPROC sGame():ENDPROC
 #; 
 #; *** ENTER STATE: GAME ***
 #; 
