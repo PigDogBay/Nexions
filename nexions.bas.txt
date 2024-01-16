@@ -163,7 +163,7 @@ ENDPROC
 DEFPROC sNewWave() 
 DRIVER %49,%2,%5
 PROC display()
-LAYER %0: PRINT AT %10,%10;title$(%w)
+LAYER %0: PRINT AT %10,%8;%w;". ";title$(%w)
 LAYER %2,%1
 ENDPROC
 #; 
@@ -173,7 +173,7 @@ DEFPROC newWave()
 PROC handleInput()
 PROC display()
 IF (TIME-timer)<50 THEN ENDPROC
-LAYER %0: PRINT AT %10,%10;"                 "
+LAYER %0: PRINT AT %10,%8;"                 "
 LAYER %2,%1
 PROC state(sSubWave)
 ENDPROC
@@ -561,25 +561,25 @@ ENDPROC
 #;
 #;-----------------------------
 @Wave
-DATA "1. The Invasion",%12,%3
-DATA "2. Flagship",%16,%3
-DATA "3. Whoovians",%14,%3
-DATA "4. Coa Monster",%26,%4
-DATA "5. Brain Wave",%22,%4
-DATA "6. Sausage Time",%54,%4
-DATA "7. Nemesis",%10,%4
-DATA "8. Golden Age",%32,%4
-DATA "9. Full Spectrum",%56,%4
-DATA "10. Brain Drain",%22,%4
-DATA "11. Little Acorns",%58,%5
-DATA "12. RTM",%0,%5
-DATA "13. Squid Game",%6,%5
-DATA "14. !#$! Q",%18,%5
-DATA "15. Brain Freeze",%22,%6
-DATA "16. Scorpio",%30,%6
-DATA "17. Spectres",%20,%6
-DATA "18. Doh",%60,%6
-DATA "19. Space Lair",%24,%7
-DATA "20. Doomed",%28,%7
+DATA "The Invasion",%12,%3
+DATA "Flagship",%16,%3
+DATA "Whoovians",%14,%3
+DATA "Coa Monster",%26,%4
+DATA "Brain Wave",%22,%4
+DATA "Sausage Time",%54,%4
+DATA "Nemesis",%10,%4
+DATA "Golden Age",%32,%4
+DATA "Full Spectrum",%56,%4
+DATA "Brain Drain",%22,%4
+DATA "Little Acorns",%58,%5
+DATA "RTM",%0,%5
+DATA "Squid Game",%6,%5
+DATA "!#$! Q",%18,%5
+DATA "Brain Freeze",%22,%6
+DATA "Scorpio",%30,%6
+DATA "Spectres",%20,%6
+DATA "Doh",%60,%6
+DATA "Space Lair",%24,%7
+DATA "Doomed",%28,%7
 
 #autoline
