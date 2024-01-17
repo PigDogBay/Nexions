@@ -24,6 +24,9 @@ starfield.sl2 will be created  \
 build.bas is used for development, it syncs the nexions directory with your PC and converts nexions.txt to basic.
   \
   \
-Reactor font by Damieng  \
+Reactor font by Damien Guard  (so many beautiful fonts to choose from!)\
 https://damieng.com/typography/zx-origins/reactor/  \
+  \
+Thanks to Remy Sharp for his excellent Audio and Sprite web tools, Adrian Sinclair and Spectrum Next Facebook groups and ZX Next Team for their Herculean efforts in delivering in two kickstarters.  \
+  \
 MPD Bailey Technology 2024.
