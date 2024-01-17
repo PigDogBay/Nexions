@@ -20,7 +20,7 @@
 RUN AT 3
 DIM pat(9,8)
 ;PROC unitTests()
-RESTORE @Formation4
+RESTORE @Formation6
 PROC readPattern()
 PROC convertPattern(1)
 PROC display()
@@ -31,7 +31,7 @@ DEFPROC display()
 #; Layers
 LAYER 0: BORDER 2: PAPER 0: INK 7: CLS 
 LAYER CLEAR
-;LAYER OVER 6
+;LAYER OVER 7
 LAYER 2,1: LAYER ERASE 0,0,256,192
 
 #; Sprites
@@ -101,8 +101,8 @@ ENDPROC
 ;%i - Index into %INT[]
 DEFPROC convertPattern(%i)
     FOR j=1 TO 9
-        x=32+pat(j,1)*16
-        y=48+pat(j,2)*16
+        x=40+pat(j,1)*16
+        y=56+pat(j,2)*16
 
         %q(i) = x :; X Pos
         %r(i) = y :; Y Pos
@@ -228,14 +228,14 @@ DATA 0,11,1,-3,0,2
 DATA 0,11,1,-3,0,2
 ;Tick
 @Formation4
-DATA "              1":;0 
-DATA "             2 ":;1
-DATA "            3  ":;2
-DATA "           4   ":;3
-DATA "          5    ":;4
-DATA "         6     ":;5
-DATA "      9 7      ":;6
-DATA "       8       ":;7
+DATA "              1 ":;0 
+DATA "             2  ":;1
+DATA "            3   ":;2
+DATA "           4    ":;3
+DATA "          5     ":;4
+DATA "         6      ":;5
+DATA "      9 7       ":;6
+DATA "       8        ":;7
 DATA -14,0,1,0,7,2
 DATA -13,1,1,-1,6,1
 DATA -12,2,1,-2,5,2
@@ -245,6 +245,83 @@ DATA -9,5,1,-5,2,1
 DATA -8,6,1,-6,1,2
 DATA -7,7,1,-7,0,1
 DATA -6,8,2,-6,1,2
+;Christmas Tree
+@Formation5
+DATA "               ":;5
+DATA "       1       ":;0 
+DATA "     2   3     ":;1
+DATA "   4       5   ":;2
+DATA " 6           7 ":;3
+DATA "      8 9      ":;4
+DATA "               ":;6
+DATA "               ":;7
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+
+;Christmas Tree Tight
+@Formation6
+DATA "               ":;5
+DATA "       1       ":;0 
+DATA "      2 3      ":;1
+DATA "     4   5     ":;2
+DATA "    6  8  7    ":;3
+DATA "               ":;4
+DATA "       9       ":;6
+DATA "               ":;7
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+;Arrow
+@Formation7
+DATA "               ":;5
+DATA "      8 9      ":;4
+DATA " 6           7 ":;3
+DATA "   4       5   ":;2
+DATA "     2   3     ":;1
+DATA "       1       ":;0 
+DATA "               ":;6
+DATA "               ":;7
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+DATA -1,1,1,-1,2,1
+;Arrow Tight
+@Formation8
+DATA "               ":;5
+DATA "       9       ":;6
+DATA "               ":;4
+DATA "    6  8  7    ":;3
+DATA "     4   5     ":;2
+DATA "      2 3      ":;1
+DATA "       1       ":;0 
+DATA "               ":;7
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
 
 ;-----------------------------
 ;
