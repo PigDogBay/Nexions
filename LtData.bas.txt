@@ -14,10 +14,11 @@
 ; w%() yUpper
 ; x%() yStep
 ; b%() Difficulty
+; c%() Formation
 ; p%() Sprite Pattern
 ;
 RUN AT 3
-DIM pat(9,9)
+DIM pat(9,8)
 PROC unitTests()
 STOP
 
@@ -31,46 +32,36 @@ DEFPROC readData()
 ENDPROC
 
 DEFPROC readPattern()
-    LOCAL index=1
-
+    LOCAL index
     FOR i=1 TO 8
         READ a$
         FOR j=1 TO 15
-            IF a$(j)<>" " THEN PROC addPosition(index,j,i,a$(j)) : index+=1
+            IF a$(j)<>" " THEN index = VAL(a$(j)):pat(index,1)=j-1:pat(index,2)=i-1
         NEXT j
     NEXT i
     FOR i=1 TO 9
         READ xStart,xEnd,xStep,yStart,yEnd,yStep
-        pat(i,4)=xStart
-        pat(i,5)=xEnd
-        pat(i,6)=xStep
-        pat(i,7)=yStart
-        pat(i,8)=yEnd
-        pat(i,9)=yStep
+        pat(i,3)=xStart
+        pat(i,4)=xEnd
+        pat(i,5)=xStep
+        pat(i,6)=yStart
+        pat(i,7)=yEnd
+        pat(i,8)=yStep
     NEXT i
-ENDPROC
-
-DEFPROC addPosition(index,x,y,c$)
-    LOCAL t = 0 :; Asbolute XY
-    IF c$="X" THEN t=1 :; Asbolute X Relative Y
-    IF c$="Y" THEN t=2 :; Asbolute Y Relative X
-    IF c$="R" THEN t=3 :; Relative XY
-    pat(index,1)=x-1
-    pat(index,2)=y-1
-    pat(index,3)=t
 ENDPROC
 
 ;
 ; Convert Data in pat() array to INT arrays
+; X,Y grid co-ords to pixel co-ords 
+; Relative offsets to absolute pixel values
 ;        pat(i,1)= X Pos
 ;        pat(i,2)= Y Pos
-;        pat(i,3)= Movement co-ord type
-;        pat(i,4)=xStart
-;        pat(i,5)=xEnd
-;        pat(i,6)=xStep
-;        pat(i,7)=yStart
-;        pat(i,8)=yEnd
-;        pat(i,9)=yStep
+;        pat(i,3)=xStart
+;        pat(i,4)=xEnd
+;        pat(i,5)=xStep
+;        pat(i,6)=yStart
+;        pat(i,7)=yEnd
+;        pat(i,8)=yStep
 ;
 DEFPROC convertPattern()
 ENDPROC
@@ -84,13 +75,11 @@ DEFPROC testReadPattern1()
     PRINT "testReadPattern1"
     RESTORE @Formation
     PROC readPattern()
-    IF pat(1,1)<>5 THEN PRINT "Failed: x pos ";pat(1,1)
-    IF pat(1,2)<>1 THEN PRINT "Failed: y pos ";pat(1,2)
-    IF pat(1,3)<>1 THEN PRINT "Failed: type ";pat(1,3)
+    IF pat(1,1)<>7 THEN PRINT "Failed: x pos ";pat(1,1)
+    IF pat(1,2)<>5 THEN PRINT "Failed: y pos ";pat(1,2)
 
-    IF pat(9,1)<>7 THEN PRINT "Failed: x pos ";pat(9,1)
-    IF pat(9,2)<>5 THEN PRINT "Failed: y pos ";pat(9,1)
-    IF pat(9,3)<>1 THEN PRINT "Failed: type ";pat(9,1)
+    IF pat(9,1)<>9 THEN PRINT "Failed: x pos ";pat(9,1)
+    IF pat(9,2)<>1 THEN PRINT "Failed: y pos ";pat(9,2)
     PRINT "testReadPattern1 Finished"
 ENDPROC
 
@@ -98,12 +87,12 @@ DEFPROC testReadPattern2()
     PRINT "testReadPattern2"
     RESTORE @Formation
     PROC readPattern()
-    IF pat(1,4)<>0 THEN PRINT "Failed:  ";pat(1,4)
-    IF pat(2,5)<>15 THEN PRINT "Failed:  ";pat(2,5)
-    IF pat(3,6)<>1 THEN PRINT "Failed:  ";pat(3,6)
-    IF pat(4,7)<>-0.25 THEN PRINT "Failed:  ";pat(4,7)
-    IF pat(5,8)<>0.5 THEN PRINT "Failed:  ";pat(5,8)
-    IF pat(9,9)<>1 THEN PRINT "Failed:  ";pat(9,9)
+    IF pat(1,3)<>-4 THEN PRINT "Failed:  ";pat(1,4)
+    IF pat(2,4)<>4 THEN PRINT "Failed:  ";pat(2,5)
+    IF pat(3,5)<>1 THEN PRINT "Failed:  ";pat(3,6)
+    IF pat(4,6)<>-0.25 THEN PRINT "Failed:  ";pat(4,7)
+    IF pat(5,7)<>0.5 THEN PRINT "Failed:  ";pat(5,8)
+    IF pat(9,8)<>1 THEN PRINT "Failed:  ";pat(9,9)
 
     PRINT "testReadPattern2 Finished"
 ENDPROC
@@ -111,26 +100,26 @@ ENDPROC
 
 @Formation
 ; Formation 1
-; X (Abs) 0 TO 15 step 1
-; Y (Rel) -0.25 TO +0.5  step 2 
+; X  -4 TO +4 step 1px
+; Y  -0.25 TO +0.5  step 1px
 ;     0123456789ABCDE
-DATA "               ":;0 AXYR
-DATA "     X   X     ":;1
-DATA "    X     X    ":;2
-DATA "     X   X     ":;3
-DATA "      X X      ":;4
-DATA "       X       ":;5
+DATA "               ":;0 
+DATA "     8   9     ":;1
+DATA "    7     6    ":;2
+DATA "     4   5     ":;3
+DATA "      3 2      ":;4
+DATA "       1       ":;5
 DATA "               ":;6
-DATA "               ": ;7
-DATA 0,15,1,-0.25,0.5,1
-DATA 0,15,1,-0.25,0.5,1
-DATA 0,15,1,-0.25,0.5,1
-DATA 0,15,1,-0.25,0.5,1
-DATA 0,15,1,-0.25,0.5,1
-DATA 0,15,1,-0.25,0.5,1
-DATA 0,15,1,-0.25,0.5,1
-DATA 0,15,1,-0.25,0.5,1
-DATA 0,15,1,-0.25,0.5,1
+DATA "               ":;7
+DATA -4,4,1,-0.25,0.5,1
+DATA -4,4,1,-0.25,0.5,1
+DATA -4,4,1,-0.25,0.5,1
+DATA -4,4,1,-0.25,0.5,1
+DATA -4,4,1,-0.25,0.5,1
+DATA -4,4,1,-0.25,0.5,1
+DATA -4,4,1,-0.25,0.5,1
+DATA -4,4,1,-0.25,0.5,1
+DATA -4,4,1,-0.25,0.5,1
 
 ;-----------------------------
 ;
