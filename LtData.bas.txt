@@ -20,7 +20,7 @@
 RUN AT 3
 DIM pat(9,8)
 ;PROC unitTests()
-RESTORE @Formation6
+RESTORE @Formation9
 PROC readPattern()
 PROC convertPattern(1)
 PROC display()
@@ -322,6 +322,44 @@ DATA -4,4,1,-1,1,1
 DATA -4,4,1,-1,1,1
 DATA -4,4,1,-1,1,1
 DATA -4,4,1,-1,1,1
+;Arrow Tight
+@Formation8
+DATA "               ":;5
+DATA "       9       ":;6
+DATA "               ":;4
+DATA "    6  8  7    ":;3
+DATA "     4   5     ":;2
+DATA "      2 3      ":;1
+DATA "       1       ":;0 
+DATA "               ":;7
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+DATA -4,4,1,-1,1,1
+;Who
+@Formation9
+DATA "               ":;5
+DATA "    1     2    ":;4
+DATA "               ":;3
+DATA "    4  3  5    ":;2
+DATA "     6   7     ":;1
+DATA "      8 9      ":;0 
+DATA "               ":;6
+DATA "               ":;7
+DATA -3,3,1,-2,2,1
+DATA -3,3,1,-2,2,1
+DATA -3,3,1,-2,2,1
+DATA -3,3,1,-2,2,1
+DATA -3,3,1,-2,2,1
+DATA -3,3,1,-2,2,1
+DATA -3,3,1,-2,2,1
+DATA -3,3,1,-2,2,1
+DATA -3,3,1,-2,2,1
 
 ;-----------------------------
 ;
