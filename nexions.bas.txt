@@ -164,7 +164,6 @@ DEFPROC sNewWave()
 %w+=1
 IF %w=31 THEN %w=1
 DRIVER %49,%2,%5
-PROC display()
 LAYER %0: PRINT AT %10,%8;%w;". ";title$(%w)
 LAYER %2,%1
 ENDPROC
@@ -184,7 +183,9 @@ ENDPROC
 #; 
 #; *** ENTER STATE: SUBWAVE ***
 #; 
-DEFPROC sSubWave():PROC display():ENDPROC
+DEFPROC sSubWave()
+timer = TIME:%c=%v:%d=%p(w)
+ENDPROC
 #; 
 #; *** ENTER STATE: SUBWAVE ***
 #; 
@@ -192,8 +193,6 @@ DEFPROC subWave()
 PROC handleInput()
 PROC display()
 IF (TIME-timer)<25 THEN ENDPROC
-%c=%v
-%d=%p(w)
 FOR %i=%1 TO %v
 SPRITE %10+i,%30 + RND 200,%30 + RND 120,%d,%1
 SPRITE CONTINUE %10+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN,%d,%0
