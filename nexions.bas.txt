@@ -75,7 +75,7 @@
 RUN AT 3
 #; Constants for states
 sTitle, sStart, sWave, sNewWave, sSubWave, sGame, sDie, sInvuln, sGameOver=0,1,2,3,4,5,6,7,8
-PROC initSnd():PROC font():PROC state(sTitle):PROC readData()
+PROC initSnd(): PROC readData():proc font(): PROC loadHS() TO high :PROC state(sTitle)
 
 #;-----------------------------
 #;
@@ -130,7 +130,7 @@ ENDPROC
 #; 
 DEFPROC start()
 PROC display()
-PROC score() : PROC lives()
+PROC score() :PROC hiScore(): PROC lives()
 
 #; Enable player ship and animate between patterns 8-9
 SPRITE %0,%x,%y,%9,%1
@@ -292,6 +292,8 @@ DEFPROC sGameOver()
 timer = TIME
 LAYER %0: PRINT AT %10,%10;"Game Over"
 LAYER %2,%1
+IF score > high THEN high=score: DRIVER %49,%2,%6:PROC saveHS(high)
+PROC hiScore()
 ENDPROC
 #; 
 #; *** STATE: GAME OVER  ***
@@ -390,6 +392,9 @@ ENDPROC = SPRITE OVER (%0,%20 TO %29,%7,%2)
 #; 
 DEFPROC score()
 LAYER %0: PRINT AT %0,%0;score:LAYER %2,%1
+ENDPROC 
+DEFPROC hiScore()
+LAYER %0: PRINT AT %0,%14;high:LAYER %2,%1
 ENDPROC 
 
 
@@ -529,6 +534,21 @@ SPRITE CONTINUE %52,%x TO %256 STEP %j RUN, %0 TO %y STEP %SGN{-k} RUN, %43,%3
 %j=%1+ RND 10
 %k=%10 - j
 SPRITE CONTINUE %53,%0 TO %x STEP % SGN {-j} RUN ,%y TO %192 STEP %k RUN ,%43,%3
+ENDPROC
+
+#;
+#; High Score Load/Save
+#;
+DEFPROC loadHS()
+LOCAL h()
+ON ERROR ENDPROC =10000
+LOAD "hs.bin" DATA h()
+ENDPROC =h(1)
+
+DEFPROC saveHS(hi)
+LOCAL h() : DIM h(1) : h(1)= hi
+ON ERROR ENDPROC
+SAVE "hs.bin" DATA h()
 ENDPROC
 
 #; 
