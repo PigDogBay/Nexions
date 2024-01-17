@@ -20,14 +20,28 @@
 RUN AT 3
 DIM pat(9,8)
 ;PROC unitTests()
-RESTORE @Formation10
-PROC readPattern()
-PROC convertPattern(1)
-PROC display()
+;PROC display()
 ;PROC dump(1)
+
+;PROC build()
+CLEAR
+LOAD "data.bin" INT
+PROC display(1)
+
 STOP
 
-DEFPROC display()
+DEFPROC build()
+RESTORE @Formation1
+FOR %i=1 TO 5
+    PRINT "Pattern ";%i
+    PROC readPattern()
+    PROC convertPattern(%i)
+NEXT %i
+PRINT "Saving data.bin"
+SAVE "data.bin" INT
+ENDPROC
+
+DEFPROC display(%i)
 #; Layers
 LAYER 0: BORDER 2: PAPER 0: INK 7: CLS 
 LAYER CLEAR
@@ -43,7 +57,8 @@ BANK bankId CLEAR
 SPRITE PRINT 1
 SPRITE STOP
 
-FOR %i=%1 TO %9
+%j= (%i-1)*9+1
+FOR %i=%j TO %j+8
     SPRITE %i,%q(i),%r(i),22,1
     SPRITE CONTINUE %i,%s(i) TO %t(i) STEP %u(i) RUN ,%v(i) TO %w(i) STEP %x(i) RUN,22,0
 NEXT %i
@@ -100,19 +115,20 @@ ENDPROC
 ;
 ;%i - Index into %INT[]
 DEFPROC convertPattern(%i)
+    %k = (%i-1)*9+1
     FOR j=1 TO 9
         x=40+pat(j,1)*16
         y=56+pat(j,2)*16
 
-        %q(i) = x :; X Pos
-        %r(i) = y :; Y Pos
-        %s(i) = x + pat(j,3)*16:; xLower
-        %t(i) = x + pat(j,4)*16:; xUpper
-        %u(i) = pat(j,5):; xStep
-        %v(i) = y + pat(j,6)*16:; yLower
-        %w(i) = y + pat(j,7)*16:; yUpper
-        %x(i)=pat(j,8): ; yStep
-        %i+=1
+        %q(k) = x :; X Pos
+        %r(k) = y :; Y Pos
+        %s(k) = x + pat(j,3)*16:; xLower
+        %t(k) = x + pat(j,4)*16:; xUpper
+        %u(k) = pat(j,5):; xStep
+        %v(k) = y + pat(j,6)*16:; yLower
+        %w(k) = y + pat(j,7)*16:; yUpper
+        %x(k)=pat(j,8): ; yStep
+        %k+=1
     NEXT j
 ENDPROC
 
@@ -166,7 +182,7 @@ DEFPROC testConvertPattern1()
 ENDPROC
 
 
-@Formation
+@Formation1
 ; Formation Heart
 ; X  -4 TO +4 step 1px
 ; Y  -0.25 TO +0.5  step 1px
