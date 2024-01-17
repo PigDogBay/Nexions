@@ -6,4 +6,8 @@ cd "C:/home/nexions"
 print "Converting to BASIC"
 .txt2bas "nexions.bas.txt"
 .txt2bas "starfield.bas.txt"
-load "nexions.bas"
+.txt2bas "LtData.bas.txt"
+;load "nexions.bas"
+load "LtData.bas"
+STOP
+CLEAR:SAVE "build.bas" LINE 10
