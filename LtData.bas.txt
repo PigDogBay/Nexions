@@ -19,8 +19,36 @@
 ;
 RUN AT 3
 DIM pat(9,8)
-PROC unitTests()
+;PROC unitTests()
+PROC readPattern()
+PROC convertPattern(1)
+PROC display()
+
 STOP
+
+DEFPROC display()
+#; Layers
+LAYER 0: BORDER 0: PAPER 0: INK 7: CLS 
+LAYER CLEAR
+;LAYER OVER 6
+LAYER 2,1: LAYER ERASE 0,0,256,192
+
+#; Sprites
+BANK NEW bankId
+LOAD "sprites.spr" BANK bankId
+SPRITE CLEAR 
+SPRITE BANK bankId
+BANK bankId CLEAR
+SPRITE PRINT 1
+SPRITE STOP
+
+FOR %i=%1 TO %9
+    SPRITE %i,%q(i),%r(i),22,1
+    SPRITE CONTINUE %i,%s(i) TO %t(i) STEP %u(i) RUN ,%v(i) TO %w(i) STEP %x(i) RUN,22,0
+NEXT %i
+
+@loop: SPRITE MOVE INT : GO TO @loop
+ENDPROC
 
 
 DEFPROC readData()
