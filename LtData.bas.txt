@@ -63,12 +63,28 @@ ENDPROC
 ;        pat(i,7)=yEnd
 ;        pat(i,8)=yStep
 ;
-DEFPROC convertPattern()
+;%i - Index into %INT[]
+DEFPROC convertPattern(%i)
+    FOR j=1 TO 9
+        x=32+pat(j,1)*16
+        y=32+pat(j,2)*16
+
+        %q(i) = x :; X Pos
+        %r(i) = y :; Y Pos
+        %s(i) = x + pat(j,3)*16:; xLower
+        %t(i) = x + pat(j,4)*16:; xUpper
+        %u(i) = pat(j,5):; xStep
+        %v(i) = y + pat(j,6)*16:; yLower
+        %w(i) = y + pat(j,7)*16:; yUpper
+        %x(i)=pat(j,8): ; yStep
+        %i+=1
+    NEXT j
 ENDPROC
 
 DEFPROC unitTests()
     PROC testReadPattern1()
     PROC testReadPattern2()
+    PROC testConvertPattern1()
 ENDPROC
 
 DEFPROC testReadPattern1()
@@ -92,9 +108,26 @@ DEFPROC testReadPattern2()
     IF pat(3,5)<>1 THEN PRINT "Failed:  ";pat(3,6)
     IF pat(4,6)<>-0.25 THEN PRINT "Failed:  ";pat(4,7)
     IF pat(5,7)<>0.5 THEN PRINT "Failed:  ";pat(5,8)
-    IF pat(9,8)<>1 THEN PRINT "Failed:  ";pat(9,9)
+    IF pat(9,8)<>1 THEN PRINT "Failed:  ";pat(9,8)
 
     PRINT "testReadPattern2 Finished"
+ENDPROC
+
+DEFPROC testConvertPattern1()
+    PRINT "testConvertPattern2"
+    RESTORE @Formation
+    PROC readPattern()
+    PROC convertPattern(42)
+    IF %q(48)<>96 THEN PRINT "Failed1:  ";%q(48)
+    IF %r(48)<>64 THEN PRINT "Failed2:  ";%r(48)
+    IF %s(48)<>32 THEN PRINT "Failed3:  ";%s(48)
+    IF %t(48)<>160 THEN PRINT "Failed4:  ";%t(48)
+    IF %u(48)<>1 THEN PRINT "Failed5:  ";%u(48)
+    IF %v(48)<>60 THEN PRINT "Failed6:  ";%v(48)
+    IF %w(48)<>72 THEN PRINT "Failed7:  ";%w(48)
+    IF %x(48)<>1 THEN PRINT "Failed8:  ";%x(48)
+
+    PRINT "testConvertPattern Finished"
 ENDPROC
 
 
