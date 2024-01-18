@@ -201,8 +201,8 @@ SPRITE CONTINUE %10+i,%s(j) TO %t(j) STEP %u(j) RUN ,%v(j) TO %w(j) STEP %x(j) R
 NEXT %i
 
 #; Mother ship appears after random delay
-SPRITE %10,%16,%32,%34,%1
-SPRITE CONTINUE %10,%16 TO %304 STEP %2 RUN ,,%34,%11,,%20+ RND (100)
+SPRITE %10,%16,%32,%45,%1
+SPRITE CONTINUE %10,%16 TO %304 STEP %2 RUN ,,%45,%11,,%20+ RND (100)
 %v+=2: IF %v>9 THEN %v=%5
 PROC state(sGame)  
 ENDPROC
@@ -406,8 +406,8 @@ DEFPROC anim()
 %b+=1: IF (%b<>10) AND (%b<>20) THEN ENDPROC
 %j=%d
 #;Animate mothersip and spider
-SPRITE CONTINUE %10,,,%34:SPRITE CONTINUE %20,,,%38
-IF %b=20 THEN %j+=1:%b=0: SPRITE CONTINUE %10,,,%35: SPRITE CONTINUE %20,,,%39
+SPRITE CONTINUE %10,,,%46:SPRITE CONTINUE %20,,,%38
+IF %b=20 THEN %j+=1:%b=0: SPRITE CONTINUE %10,,,%47: SPRITE CONTINUE %20,,,%39
 #;Animate enemies
 FOR %i=%11 TO %19
 SPRITE CONTINUE %i,,,%j
