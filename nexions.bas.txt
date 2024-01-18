@@ -75,7 +75,7 @@
 RUN AT 3
 #; Constants for states
 sTitle, sStart, sWave, sNewWave, sSubWave, sGame, sDie, sInvuln, sGameOver=0,1,2,3,4,5,6,7,8
-PROC initSnd(): PROC readData():proc font(): PROC loadHS() TO high :PROC state(sTitle)
+LOAD "data.bin" INT: PROC initSnd(): PROC readData():proc font(): PROC loadHS() TO high :PROC state(sTitle)
 
 #;-----------------------------
 #;
@@ -194,9 +194,14 @@ PROC handleInput()
 PROC display()
 IF (TIME-timer)<25 THEN ENDPROC
 FOR %i=%1 TO %v
-SPRITE %10+i,%30 + RND 200,%30 + RND 120,%d,%1
-SPRITE CONTINUE %10+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN,%d,%0
+#;SPRITE %10+i,%30 + RND 200,%30 + RND 120,%d,%1
+#;SPRITE CONTINUE %10+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN,%d,%0
+%j=%9+i
+SPRITE %10+i,%q(j),%r(j),%d,1
+SPRITE CONTINUE %10+i,%s(j) TO %t(j) STEP %u(j) RUN ,%v(j) TO %w(j) STEP %x(j) RUN,%d,0
+
 NEXT %i
+
 #; Mother ship appears after random delay
 SPRITE %10,%16,%32,%34,%1
 SPRITE CONTINUE %10,%16 TO %304 STEP %2 RUN ,,%34,%11,,%20+ RND (100)
@@ -579,7 +584,7 @@ ENDPROC
 #;-----------------------------
 @Wave
 DATA "The Invasion",%12,%2
-DATA "Venusian Spiders",%38,%2
+DATA "Venusian Spiders",%62,%2
 DATA "Flagship",%16,%2
 DATA "Coa Monster",%26,%2
 DATA "Brain Wave",%22,%2

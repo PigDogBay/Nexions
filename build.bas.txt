@@ -4,10 +4,11 @@
 .sync
 cd "C:/home/nexions"
 print "Converting to BASIC"
+.txt2bas "build.bas.txt"
 .txt2bas "nexions.bas.txt"
 .txt2bas "starfield.bas.txt"
 .txt2bas "LtData.bas.txt"
-;load "nexions.bas"
-load "LtData.bas"
+load "nexions.bas"
+;load "LtData.bas"
 STOP
 CLEAR:SAVE "build.bas" LINE 10
