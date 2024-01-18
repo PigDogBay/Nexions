@@ -403,7 +403,7 @@ DATA -0.5,0.5,1,-0.25,0.25,1:;9
 ;-----------------------------
 @Wave
 DATA "The Invasion",%12,%2
-DATA "Venusian Spiders",%38,%2
+DATA "Venusian Spiders",%62,%2
 DATA "Flagship",%16,%2
 DATA "Coa Monster",%26,%2
 DATA "Brain Wave",%22,%2
