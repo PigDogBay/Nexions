@@ -4,7 +4,7 @@
 ; Mark Bailey
 ; 17 Jan 2024
 ; Generate data for Nexions
-;
+; 
 ; q%() X pos
 ; r%() Y Pos
 ; s%() xLower
@@ -13,9 +13,9 @@
 ; v%() yLower
 ; w%() yUpper
 ; x%() yStep
-; b%() Difficulty
 ; c%() Formation
-; p%() Sprite Pattern
+; a%() Sprite Pattern
+; b%() Difficulty
 ;
 RUN AT 3
 DIM pat(9,8)
@@ -77,7 +77,7 @@ DEFPROC readData()
     DIM title$(30,18)
     RESTORE @Wave
     FOR %i=1 TO 30
-        READ title$(%i),%p(i),%b(i)
+        READ title$(%i),%a(i),%b(i)
     NEXT %i
 ENDPROC
 
