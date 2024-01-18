@@ -131,11 +131,9 @@ ENDPROC
 DEFPROC start()
 PROC display()
 PROC score() :PROC hiScore(): PROC lives()
-
 #; Enable player ship and animate between patterns 8-9
 SPRITE %0,%x,%y,%9,%1
 SPRITE CONTINUE %0,,,%8 TO %9,$4,%3,%0
-
 #; Change state to new wave
 PROC state(sWave)
 ENDPROC
@@ -232,7 +230,11 @@ ENDPROC
 #; *** ENTER STATE: Invulnerability ***
 #; Clear any bombs and spider bomb
 DEFPROC sInvuln()
-PROC clearBombs():SPRITE %20,%0,%0,%0,%0:timer= TIME
+PROC clearBombs(): SPRITE %20,%0,%0,%0,%0:timer= TIME
+#;New ship
+SPRITE %0,%x,%y,%9,%1
+SPRITE CONTINUE %0,,,%8 TO %9,$4,%3,%0
+PROC lives()
 ENDPROC
 #; 
 #; *** ENTER STATE: Invulnerability ***
@@ -252,7 +254,6 @@ DEFPROC sDie()
 #; Lose a life
 timer = TIME
 lives-=1
-PROC lives()
 
 #;Show ship explosion patterns
 #;Patterns 48 to 53
@@ -281,10 +282,6 @@ IF (TIME-timer)< 100 THEN ENDPROC
 
 #; Back to the game
 IF lives=0 THEN PROC state(sGameOver) : ENDPROC
-#;New ship
-SPRITE %0,%x,%y,%9,%1
-SPRITE CONTINUE %0,,,%8 TO %9,$4,%3,%0
-
 PROC state(sInvuln)
 ENDPROC
 
@@ -326,19 +323,14 @@ ENDPROC
 DEFPROC initGraphics()
 
 #; Layers
-LAYER 0: BORDER 0: PAPER 0: INK 7: CLS 
-LAYER CLEAR
-LAYER OVER 6
+LAYER 0: BORDER 0: PAPER 0: INK 7: CLS :LAYER CLEAR: LAYER OVER 6
 LAYER 2,1: LAYER ERASE 0,0,256,192
 
 #; Sprites
 BANK NEW bankId
 LOAD "sprites.spr" BANK bankId
-SPRITE CLEAR 
-SPRITE BANK bankId
-BANK bankId CLEAR
-SPRITE PRINT 1
-SPRITE STOP 
+SPRITE CLEAR : SPRITE BANK bankId:BANK bankId CLEAR
+SPRITE PRINT 1: SPRITE BORDER 1: SPRITE STOP 
 
 ENDPROC 
 
@@ -426,7 +418,8 @@ ENDPROC
 #; *** UPDATE LIVES ***
 #; 
 DEFPROC lives()
-LAYER %0: PRINT AT %0,%31;lives:LAYER %2,%1
+FOR %i=2 TO lives :SPRITE %60+i,16+(%i-2)*18,%230,%8,1:NEXT %i
+FOR %i=lives+1 TO 10:SPRITE %60+i,0,0,%8,0:NEXT %i
 ENDPROC
 
 #; 
