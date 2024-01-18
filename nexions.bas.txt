@@ -104,7 +104,8 @@ DEFPROC sTitle()
 PROC initGraphics()
 LOAD "title.sl2" LAYER
 DRIVER %49,%2,%2
-LAYER 0: PRINT #1; TAB 9; INK 2;"Fire To Start": LAYER 2,1
+SPRITE %60,%140,%150,%6,%1
+SPRITE CONTINUE %60,,,%6 TO %7,$40,%10
 timer= TIME : tmr2=TIME
 ENDPROC
 #; 
@@ -121,11 +122,13 @@ ENDPROC
 
 DEFPROC help()
 LAYER 0
-PRINT AT 17,4;"                      "
-IF %t=0 : PRINT AT 17,9;INK 4;"Enemy 50 pts"
-ELSE IF %t=1 : PRINT AT 17,6;INK 6;"Mothership 250 pts"
-ELSE IF %t=2 : PRINT AT 17,6;INK 5;"Spider Bomb 500 pts"
-ELSE: PRINT AT 17,8;INK 3;"By Pig Dog Bay"
+PRINT AT 20,4;"                      "
+IF %t=0 : PRINT AT 20,9;INK 4;"Enemy 50 pts":SPRITE CONTINUE %60,,,%6 TO %7:SPRITE %60,,,%6
+ELSE IF %t=1 : PRINT AT 20,6;INK 6;"Mothership 250 pts":SPRITE CONTINUE %60,,,%46 TO %47:SPRITE %60,,,%46
+ELSE IF %t=2 : PRINT AT 20,6;INK 5;"Spider Bomb 500 pts":SPRITE CONTINUE %60,,,%38 TO %39:SPRITE %60,,,%38
+ELSE IF %t=3 : PRINT AT 20,9;INK 2;"Fire To Start":SPRITE CONTINUE %60,,,%22 TO %23:SPRITE %60,,,%22
+ELSE IF %t=4 : PRINT AT 20,8;INK 7;"Hi Score ";high
+ELSE: PRINT AT 18,8;INK 3;"By Pig Dog Bay"
 ENDIF
 %t+=1:IF %t=5 THEN %t=0
 ENDPROC
