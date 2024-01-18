@@ -202,7 +202,7 @@ NEXT %i
 
 #; Mother ship appears after random delay
 SPRITE %10,%16,%32,%45,%1
-SPRITE CONTINUE %10,%16 TO %304 STEP %2 RUN ,,%45,%11,,%20+ RND (100)
+SPRITE CONTINUE %10,%0 TO %319 STEP %2 RUN ,,%45,%11,,%20+ RND (100)
 %v+=2: IF %v>9 THEN %v=%5
 PROC state(sGame)  
 ENDPROC
@@ -500,7 +500,7 @@ IF % NOT SPRITE g OR SPRITE h THEN ENDPROC
 %i= SPRITE AT (%g,%0)
 
 #;Drop a spider bomb
-IF %g=10 AND (w>3) AND (i>250) THEN SPRITE %h,%i,32,%39,%1:SPRITE CONTINUE %h,%32 to %255 STEP -RND(4) RUN,%(w*2+100) TO %225 STEP %(w>>4+3) RUN,%38 TO %39,%0: %f=%(5*w+140):ENDPROC
+IF %g=10 AND (w>3) AND (i>300) THEN SPRITE %h,%i,32,%39,%1:SPRITE CONTINUE %h,%32 to %255 STEP -RND(4) RUN,%(w*2+100) TO %225 STEP %(w>>4+3) RUN,%38 TO %39,%0: %f=%(5*w+140):ENDPROC
 IF %g=10 THEN ENDPROC
 
 #;More chance of dropping bomb closer to enemy
