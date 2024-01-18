@@ -12,20 +12,21 @@
 ;
 RUN AT 3
 DIM pat(9,8)
-PROC unitTests()
+;PROC unitTests()
 ;PROC display()
 ;PROC dump(1)
 
 ;PROC build()
-;CLEAR
-;LOAD "data.bin" INT
-;PROC display(1)
+;PROC dump(%2)
+CLEAR
+LOAD "data.bin" INT
+PROC display(1)
 
 STOP
 
 DEFPROC build()
 RESTORE @Formation1
-FOR %i=1 TO 5
+FOR %i=1 TO 10
     PRINT "Pattern ";%i
     PROC readPattern()
     PROC convertPattern(%i)
@@ -50,18 +51,25 @@ BANK bankId CLEAR
 SPRITE PRINT 1
 SPRITE STOP
 
-%j= (%i-1)*9+1
-FOR %i=%j TO %j+8
-    SPRITE %i,%q(i),%r(i),22,1
-    SPRITE CONTINUE %i,%s(i) TO %t(i) STEP %u(i) RUN ,%v(i) TO %w(i) STEP %x(i) RUN,22,0
+%j= FN formOffset(%i)
+FOR %i=0 TO 8
+    SPRITE %i,%e[j],%e[j+1],22,1
+    SPRITE CONTINUE %i,%e[j+2] TO %e[j+3] STEP %e[j+4] RUN ,%e[j+5] TO %e[j+6] STEP %e[j+7] RUN ,22,0
+    %j+=8
 NEXT %i
 
 @loop: SPRITE MOVE INT : GO TO @loop
 ENDPROC
 
-DEFPROC dump(index)
+DEFPROC dump(%i)
+%k= FN formOffset(%i)
+PRINT "Formation ";%i;" at offset ";%k
 FOR %i=%1 TO %9
-    PRINT %i;",";%q(i);",";%r(i);",";%s(i);"-";%t(i);":";%u(i);" ";%v(i);"-";%w(i);":";%x(i)
+    FOR %j=0 TO 7
+        PRINT %e[k];",";
+        %k+=1
+    NEXT %j
+    PRINT
 NEXT %i
 
 ENDPROC
@@ -93,6 +101,7 @@ DEFPROC readPattern()
     NEXT i
 ENDPROC
 
+DEF FN formOffset(%i) = (%i-1)*72+1
 ;
 ; Convert Data in pat() array to INT arrays
 ; X,Y grid co-ords to pixel co-ords 
@@ -108,7 +117,8 @@ ENDPROC
 ;
 ;%i - Index into %e[]
 DEFPROC convertPattern(%i)
-    %k = (%i-1)*72+1
+    %k = FN formOffset(%i)
+
     FOR j=1 TO 9
         x=40+pat(j,1)*16
         y=56+pat(j,2)*16
