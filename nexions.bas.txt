@@ -75,7 +75,7 @@
 RUN AT 3
 #; Constants for states
 sTitle, sStart, sWave, sNewWave, sSubWave, sGame, sDie, sInvuln, sGameOver=0,1,2,3,4,5,6,7,8
-LOAD "data.bin" INT: PROC initSnd(): PROC readData():proc font(): PROC loadHS() TO high :PROC state(sTitle)
+LOAD "data.bin" INT: LOAD "titles.arr" DATA title$():PROC initSnd():proc font(): PROC loadHS() TO high :PROC state(sTitle)
 
 #;-----------------------------
 #;
@@ -196,15 +196,10 @@ ENDPROC
 DEFPROC subWave() 
 PROC handleInput()
 PROC display()
-IF (TIME-timer)<25 THEN ENDPROC
-FOR %i=%1 TO %v
-#;SPRITE %10+i,%30 + RND 200,%30 + RND 120,%d,%1
-#;SPRITE CONTINUE %10+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN,%d,%0
-%j=%9+i
-SPRITE %10+i,%q(j),%r(j),%d,1
-SPRITE CONTINUE %10+i,%s(j) TO %t(j) STEP %u(j) RUN ,%v(j) TO %w(j) STEP %x(j) RUN,%d,0
+IF ( TIME -timer) < 25 THEN ENDPROC
 
-NEXT %i
+#;Set up enemy formation
+IF %c(w)=0 THEN PROC rndFormation(): ELSE PROC formation(%c(w))
 
 #; Mother ship appears after random delay
 SPRITE %10,%16,%32,%45,%1
@@ -548,6 +543,22 @@ SPRITE CONTINUE id,%0 TO %319 STEP % SGN {j} RUN ,%0 TO %255 STEP % SGN {k} RUN 
 id+=1:IF id=10 THEN id=0
 ENDPROC
 
+DEFPROC rndFormation()
+FOR %i=%1 TO %v
+SPRITE %10+i,%30 + RND 200,%30 + RND 120,%d,%1
+SPRITE CONTINUE %10+i,%30 TO %230 STEP %1 RUN ,%30 TO %150 STEP %2 RUN,%d,%0
+NEXT %i
+ENDPROC
+
+DEFPROC formation(%h)
+%j=(%h-1)*72+1
+FOR %i=%1 TO %v
+SPRITE %10+i,%e[j],%e[j+1],%d,1
+SPRITE CONTINUE %10+i,%e[j+2] TO %e[j+3] STEP %e[j+4] RUN ,%e[j+5] TO %e[j+6] STEP %e[j+7] RUN,%d,0
+%j+=8
+NEXT %i
+ENDPROC
+
 #;
 #; High Score Load/Save
 #;
@@ -574,51 +585,5 @@ DEFPROC font()
 LOAD "Reactor.ch8" CODE %$FA00,768
 POKE 23607,%$F9: POKE 23606,0:PRINT CHR$ 2
 ENDPROC
-
-
-DEFPROC readData()
-DIM title$(30,18)
-RESTORE @Wave
-FOR %i=1 TO 30
-READ title$(%i),%a(i),%b(i)
-NEXT %i
-ENDPROC
-
-#;-----------------------------
-#;
-#; WAVE DATA
-#;
-#;-----------------------------
-@Wave
-DATA "The Invasion",%12,%2
-DATA "Venusian Spiders",%62,%2
-DATA "Flagship",%16,%2
-DATA "Coa Monster",%26,%2
-DATA "Brain Wave",%22,%2
-DATA "Whoovians",%14,%3
-DATA "Sausage Time",%54,%3
-DATA "Nemesis",%10,%3
-DATA "Golden Age",%32,%3
-DATA "Brain Drain",%22,%3
-DATA "Full Spectrum",%56,%3
-DATA "RTM",%0,%3
-DATA "Little Acorns",%58,%4
-DATA "Squid Game",%6,%4
-DATA "Brain Freeze",%22,%4
-DATA "!#$! Q",%18,%4
-DATA "Scorpio",%30,%4
-DATA "Spectres",%20,%4
-DATA "Doh",%60,%4
-DATA "Doomed",%28,%5
-DATA "Space Lair",%24,%5
-DATA "Squids In",%6,%5
-DATA "Hydra",%30,%5
-DATA "My Gal",%32,%5
-DATA "Brainiac",%22,%6
-DATA "Convoy Charger",%16,%6
-DATA "Act Mooners",%26,%6
-DATA "Lord Eugene",%24,%6
-DATA "Big Ed",%60,%7
-DATA "Kill Screen",%28,%7
 
 #autoline
