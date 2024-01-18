@@ -137,7 +137,7 @@ PROC display()
 PROC score() :PROC hiScore(): PROC lives()
 #; Enable player ship and animate between patterns 8-9
 SPRITE %0,%x,%y,%9,%1
-SPRITE CONTINUE %0,,,%8 TO %9,$4,%3,%0
+SPRITE CONTINUE %0,,,%8 TO %9,%$50,%3,%0
 #; Change state to new wave
 PROC state(sWave)
 ENDPROC
@@ -234,7 +234,7 @@ DEFPROC sInvuln()
 PROC clearBombs(): SPRITE %20,%0,%0,%0,%0:timer= TIME
 #;New ship
 SPRITE %0,%x,%y,%9,%1
-SPRITE CONTINUE %0,,,%8 TO %9,$4,%3,%0
+SPRITE CONTINUE %0,,,%8 TO %9,%$50,%3,%0
 PROC lives()
 ENDPROC
 #; 
