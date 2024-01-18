@@ -20,7 +20,7 @@ DIM pat(9,8)
 ;PROC dump(%2)
 CLEAR
 LOAD "data.bin" INT
-PROC display(1)
+PROC display()
 
 STOP
 
@@ -35,7 +35,7 @@ PRINT "Saving data.bin"
 SAVE "data.bin" INT
 ENDPROC
 
-DEFPROC display(%i)
+DEFPROC display()
 #; Layers
 LAYER 0: BORDER 2: PAPER 0: INK 7: CLS 
 LAYER CLEAR
@@ -51,14 +51,25 @@ BANK bankId CLEAR
 SPRITE PRINT 1
 SPRITE STOP
 
-%j= FN formOffset(%i)
-FOR %i=0 TO 8
-    SPRITE %i,%e[j],%e[j+1],22,1
-    SPRITE CONTINUE %i,%e[j+2] TO %e[j+3] STEP %e[j+4] RUN ,%e[j+5] TO %e[j+6] STEP %e[j+7] RUN ,22,0
-    %j+=8
-NEXT %i
+%s=1
+PROC createSprites(%s)
+REPEAT
+    SPRITE MOVE INT
+    %i = INPUT 1| INPUT 0
+    IF %i&$10 THEN %a+=1 : ELSE %a=0
+    IF %a=1 THEN %s+=1: PROC createSprites(%s)
+    IF %s=10 THEN %s=0
+REPEAT UNTIL 0
+ENDPROC
 
-@loop: SPRITE MOVE INT : GO TO @loop
+DEFPROC createSprites(%i)
+    PRINT AT 0,0;%i;"   "
+    %j= FN formOffset(%i)
+    FOR %i=0 TO 8
+        SPRITE %i,%e[j],%e[j+1],22,1
+        SPRITE CONTINUE %i,%e[j+2] TO %e[j+3] STEP %e[j+4] RUN ,%e[j+5] TO %e[j+6] STEP %e[j+7] RUN ,22,0
+        %j+=8
+    NEXT %i
 ENDPROC
 
 DEFPROC dump(%i)
