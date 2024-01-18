@@ -25,7 +25,7 @@
 #; %q
 #; %r
 #; %s - Current State
-#; %t
+#; %t - Timer counter
 #; %u
 #; %v - Sub wave number of enemies: 5,7,9
 #; %w - Wave 1 - 20
@@ -103,13 +103,16 @@ DEFPROC sTitle()
 PROC initGraphics()
 LOAD "title.sl2" LAYER
 DRIVER %49,%2,%2
+LAYER 0: PRINT #1; TAB 9;INK 2;"Fire To Start": LAYER 2,1
 ENDPROC
 #; 
 #; *** STATE: TITLE ***
 #; 
 DEFPROC title()
-%i = INPUT 1| INPUT 0
+#; Flash press fire message
+
 #; Fire to start game
+%i = INPUT 1| INPUT 0
 IF %i&$10 THEN PROC state(sStart)
 ENDPROC
 
@@ -551,8 +554,7 @@ ENDPROC
 #; *** DEBUG PRINT ***
 #; 
 DEFPROC dbg(%i)
-LAYER %0: PRINT AT %21,%0;%i;"    "
-LAYER %2,%1
+LAYER %0: PRINT AT %21,%0;%i;"    ":LAYER %2,%1
 ENDPROC
 
 DEFPROC font()
