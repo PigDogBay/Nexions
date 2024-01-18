@@ -297,7 +297,7 @@ ENDPROC
 #; 
 DEFPROC sGameOver()
 timer = TIME
-LAYER %0: PRINT AT %10,%10;"Game Over"
+LAYER %0: PRINT AT %10,%12;"Game Over"
 LAYER %2,%1
 IF score > high THEN high=score: DRIVER %49,%2,%6:PROC saveHS(high)
 PROC hiScore()
