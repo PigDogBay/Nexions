@@ -26,7 +26,7 @@
 #; %r
 #; %s - Current State
 #; %t - Title state
-#; %u
+#; %u 
 #; %v - Sub wave number of enemies: 5,7,9
 #; %w - Wave 1 - 20
 #; %x - Ship X position
@@ -35,6 +35,7 @@
 #; lives - Current number of lives 
 #; score - Current score
 #; high - High score
+#; extra - - Extra life score
 #; Bonus - Shots fired, death will reduce bonus
 #; timer - Last value of TIME, used to measure time duration (1/50th second) 
 #; tmr2 - Another timer
@@ -126,12 +127,13 @@ LAYER 0
 PRINT AT 18,4;"                       "
 IF %t=0 : PRINT AT 18,10;INK 4;"Enemy 50 pts":SPRITE CONTINUE %60,,,%12 TO %13:SPRITE %60,,,%12
 ELSE IF %t=1 : PRINT AT 18,7;INK 3;"Mothership 250 pts":SPRITE CONTINUE %60,,,%46 TO %47:SPRITE %60,,,%46
-ELSE IF %t=2 : PRINT AT 18,7;INK 5;"Spider Bomb 500 pts":SPRITE CONTINUE %60,,,%38 TO %39:SPRITE %60,,,%38
+ELSE IF %t=2 : PRINT AT 18,6;INK 5;"Spider Bomb 500 pts":SPRITE CONTINUE %60,,,%38 TO %39:SPRITE %60,,,%38
 ELSE IF %t=3 : PRINT AT 18,10;INK 2;"Fire To Start":SPRITE CONTINUE %60,,,%22 TO %23:SPRITE %60,,,%22
-ELSE IF %t=4 : PRINT AT 18,9;INK 6;"Hi Score ";high:SPRITE CONTINUE %60,,,%8 TO %9:SPRITE %60,,,%8
+ELSE IF %t=4 : PRINT AT 18,9;INK 6;"Hi Score ";high:SPRITE CONTINUE %60,,,%6 TO %7:SPRITE %60,,,%6
+ELSE IF %t=5 : PRINT AT 18,5;INK 5;"Extra Life 20,000 pts":SPRITE CONTINUE %60,,,%8 TO %9:SPRITE %60,,,%8
 ELSE: PRINT AT 18,9;INK 3;"By Pig Dog Bay":SPRITE CONTINUE %60,,,%54 TO %55:SPRITE %60,,,%54
 ENDIF
-%t+=1:IF %t=6 THEN %t=0
+%t+=1:IF %t=7 THEN %t=0
 ENDPROC
 
 
@@ -143,7 +145,7 @@ DEFPROC sStart()
 PROC initGraphics()
 %x,%y,%l,%m,%a=%152,%208,%0,%7,%0
 %w,%v=0,5
-lives,score,bonus=3,0,0
+lives,score,bonus,extra=3,0,0,20000
 LOAD "stars.sl2" LAYER
 ENDPROC
 #; 
@@ -162,7 +164,10 @@ ENDPROC
 #; 
 #; *** ENTER STATE: WAVE ***
 #; 
-DEFPROC sWave(): PROC clearEnemies(): SPRITE %0,%x,%y,%9,%1:ENDPROC
+DEFPROC sWave():
+PROC clearEnemies(): SPRITE %0,%x,%y,%9,%1
+IF score > extra THEN lives+=1:extra+=20000: PROC lives():DRIVER %49,%2,%7
+ENDPROC
 #; 
 #; *** ENTER STATE: WAVE ***
 #; 
