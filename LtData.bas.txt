@@ -4,29 +4,22 @@
 ; Mark Bailey
 ; 17 Jan 2024
 ; Generate data for Nexions
-; 
-; q%() X pos
-; r%() Y Pos
-; s%() xLower
-; t%() xUpper
-; u%() xStep
-; v%() yLower
-; w%() yUpper
-; x%() yStep
-; c%() Formation
-; a%() Sprite Pattern
-; b%() Difficulty
+;
+; a%[] Sprite Pattern
+; b%[] Difficulty
+; %e[] Contains Formation Data
+; X pos, Y Pos, xLower, xUpper xStep, yLower, yUpper, yStep
 ;
 RUN AT 3
 DIM pat(9,8)
-;PROC unitTests()
+PROC unitTests()
 ;PROC display()
 ;PROC dump(1)
 
 ;PROC build()
-CLEAR
-LOAD "data.bin" INT
-PROC display(1)
+;CLEAR
+;LOAD "data.bin" INT
+;PROC display(1)
 
 STOP
 
@@ -113,22 +106,22 @@ ENDPROC
 ;        pat(i,7)=yEnd
 ;        pat(i,8)=yStep
 ;
-;%i - Index into %INT[]
+;%i - Index into %e[]
 DEFPROC convertPattern(%i)
-    %k = (%i-1)*9+1
+    %k = (%i-1)*72+1
     FOR j=1 TO 9
         x=40+pat(j,1)*16
         y=56+pat(j,2)*16
 
-        %q(k) = x :; X Pos
-        %r(k) = y :; Y Pos
-        %s(k) = x + pat(j,3)*16:; xLower
-        %t(k) = x + pat(j,4)*16:; xUpper
-        %u(k) = pat(j,5):; xStep
-        %v(k) = y + pat(j,6)*16:; yLower
-        %w(k) = y + pat(j,7)*16:; yUpper
-        %x(k)=pat(j,8): ; yStep
-        %k+=1
+        %e[k] = x :; X Pos
+        %e[k+1] = y :; Y Pos
+        %e[k+2] = x + pat(j,3)*16:; xLower
+        %e[k+3] = x + pat(j,4)*16:; xUpper
+        %e[k+4] = pat(j,5):; xStep
+        %e[k+5] = y + pat(j,6)*16:; yLower
+        %e[k+6] = y + pat(j,7)*16:; yUpper
+        %e[k+7]=pat(j,8): ; yStep
+        %k+=8
     NEXT j
 ENDPROC
 
@@ -140,7 +133,7 @@ ENDPROC
 
 DEFPROC testReadPattern1()
     PRINT "testReadPattern1"
-    RESTORE @Formation
+    RESTORE @Formation1
     PROC readPattern()
     IF pat(1,1)<>7 THEN PRINT "Failed: x pos ";pat(1,1)
     IF pat(1,2)<>5 THEN PRINT "Failed: y pos ";pat(1,2)
@@ -152,7 +145,7 @@ ENDPROC
 
 DEFPROC testReadPattern2()
     PRINT "testReadPattern2"
-    RESTORE @Formation
+    RESTORE @Formation1
     PROC readPattern()
     IF pat(1,3)<>-4 THEN PRINT "Failed:  ";pat(1,4)
     IF pat(2,4)<>4 THEN PRINT "Failed:  ";pat(2,5)
@@ -166,17 +159,17 @@ ENDPROC
 
 DEFPROC testConvertPattern1()
     PRINT "testConvertPattern2"
-    RESTORE @Formation
+    RESTORE @Formation1
     PROC readPattern()
-    PROC convertPattern(42)
-    IF %q(48)<>96 THEN PRINT "Failed1:  ";%q(48)
-    IF %r(48)<>64 THEN PRINT "Failed2:  ";%r(48)
-    IF %s(48)<>32 THEN PRINT "Failed3:  ";%s(48)
-    IF %t(48)<>160 THEN PRINT "Failed4:  ";%t(48)
-    IF %u(48)<>1 THEN PRINT "Failed5:  ";%u(48)
-    IF %v(48)<>60 THEN PRINT "Failed6:  ";%v(48)
-    IF %w(48)<>72 THEN PRINT "Failed7:  ";%w(48)
-    IF %x(48)<>1 THEN PRINT "Failed8:  ";%x(48)
+    PROC convertPattern(5)
+    IF %e[289]<>152 THEN PRINT "Failed1:  ";%e[289]
+    IF %e[290]<>136 THEN PRINT "Failed2:  ";%e[290]
+    IF %e[291]<>88 THEN PRINT "Failed3:  ";%e[291]
+    IF %e[292]<>216 THEN PRINT "Failed4:  ";%e[292]
+    IF %e[293]<>1 THEN PRINT "Failed5:  ";%e[293]
+    IF %e[294]<>132 THEN PRINT "Failed6:  ";%e[294]
+    IF %e[295]<>144 THEN PRINT "Failed7:  ";%e[295]
+    IF %e[296]<>1 THEN PRINT "Failed8:  ";%e[296]
 
     PRINT "testConvertPattern Finished"
 ENDPROC
@@ -319,25 +312,6 @@ DATA -1,1,1,-1,2,1
 DATA -1,1,1,-1,2,1
 DATA -1,1,1,-1,2,1
 DATA -1,1,1,-1,2,1
-;Arrow Tight
-@Formation8
-DATA "               ":;5
-DATA "       9       ":;6
-DATA "               ":;4
-DATA "    6  8  7    ":;3
-DATA "     4   5     ":;2
-DATA "      2 3      ":;1
-DATA "       1       ":;0 
-DATA "               ":;7
-DATA -4,4,1,-1,1,1
-DATA -4,4,1,-1,1,1
-DATA -4,4,1,-1,1,1
-DATA -4,4,1,-1,1,1
-DATA -4,4,1,-1,1,1
-DATA -4,4,1,-1,1,1
-DATA -4,4,1,-1,1,1
-DATA -4,4,1,-1,1,1
-DATA -4,4,1,-1,1,1
 ;Arrow Tight
 @Formation8
 DATA "               ":;5
