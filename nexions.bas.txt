@@ -25,7 +25,7 @@
 #; %q
 #; %r
 #; %s - Current State
-#; %t - Timer counter
+#; %t - Title state
 #; %u
 #; %v - Sub wave number of enemies: 5,7,9
 #; %w - Wave 1 - 20
@@ -37,7 +37,7 @@
 #; high - High score
 #; Bonus - Shots fired, death will reduce bonus
 #; timer - Last value of TIME, used to measure time duration (1/50th second) 
-#; 
+#; tmr2 - Another timer
 #; Arrays
 #; titles$ - Level names
 #; a%[] - Enemy pattern
@@ -105,18 +105,31 @@ PROC initGraphics()
 LOAD "title.sl2" LAYER
 DRIVER %49,%2,%2
 LAYER 0: PRINT #1; TAB 9; INK 2;"Fire To Start": LAYER 2,1
-timer = TIME
+timer= TIME : tmr2=TIME
 ENDPROC
 #; 
 #; *** STATE: TITLE ***
 #; 
 DEFPROC title()
-proc star()
+PROC star()
+IF (TIME-tmr2)>100 THEN PROC help():tmr2=TIME
 SPRITE MOVE INT
 #; Fire to start game
 %i = INPUT 1| INPUT 0
 IF %i&$10 THEN PROC state(sStart)
 ENDPROC
+
+DEFPROC help()
+LAYER 0
+PRINT AT 17,4;"                      "
+IF %t=0 : PRINT AT 17,9;INK 4;"Enemy 50 pts"
+ELSE IF %t=1 : PRINT AT 17,6;INK 6;"Mothership 250 pts"
+ELSE IF %t=2 : PRINT AT 17,6;INK 5;"Spider Bomb 500 pts"
+ELSE: PRINT AT 17,8;INK 3;"By Pig Dog Bay"
+ENDIF
+%t+=1:IF %t=5 THEN %t=0
+ENDPROC
+
 
 
 #; 
