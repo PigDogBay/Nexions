@@ -167,7 +167,7 @@ DEFPROC sNewWave()
 IF %w=31 THEN %w=1
 DRIVER %49,%2,%5
 #; Centre text
-%i=(29- LEN title$(%w)[^])/2
+%i=(29- LEN title$(%w)[>])/2
 LAYER %0: PRINT AT %10,%i;%w;". ";title$(%w)
 LAYER %2,%1
 ENDPROC
