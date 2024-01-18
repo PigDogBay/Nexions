@@ -31,7 +31,7 @@
 #; %w - Wave 1 - 20
 #; %x - Ship X position
 #; %y - Ship Y position
-#; %z
+#; %z - Star sprite ID
 #; lives - Current number of lives 
 #; score - Current score
 #; high - High score
@@ -106,7 +106,8 @@ LOAD "title.sl2" LAYER
 DRIVER %49,%2,%2
 SPRITE %60,%140,%150,%6,%1
 SPRITE CONTINUE %60,,,%6 TO %7,$40,%10
-timer= TIME : tmr2=TIME
+timer= TIME :tmr2= TIME
+%z=%80
 ENDPROC
 #; 
 #; *** STATE: TITLE ***
@@ -557,15 +558,14 @@ SPRITE CONTINUE %53,%0 TO %x STEP % SGN {-j} RUN ,%y TO %192 STEP %k RUN ,%43,%3
 ENDPROC
 
 DEFPROC star()
-PRIVATE id=0
-IF TIME -timer < 5 THEN ENDPROC
+IF TIME -timer < 2 THEN ENDPROC
 timer=TIME
 %j=% RND (20)-10:%k=% RND (20)-10
 IF %(j=0) AND (k=0) THEN ENDPROC
 %h=%40+RND(5)
-SPRITE id,%150+RND(20),%118+RND(20),%h,%1
-SPRITE CONTINUE id,%0 TO %319 STEP % SGN {j} RUN ,%0 TO %255 STEP % SGN {k} RUN ,%h,%3
-id+=1:IF id=10 THEN id=0
+SPRITE %z,%150+RND(20),%118+RND(20),%h,%1
+SPRITE CONTINUE %z,%0 TO %319 STEP % SGN {j} RUN ,%0 TO %255 STEP % SGN {k} RUN ,%h,%3
+%z+=1:IF %z=120 THEN %z=80
 ENDPROC
 
 DEFPROC rndFormation()
