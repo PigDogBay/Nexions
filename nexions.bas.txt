@@ -39,8 +39,8 @@
 #; 
 #; Arrays
 #; titles$ - Level names
-#; b%[] - bomb speed
-#; p% - enemy pattern
+#; a%[] - Enemy pattern
+#; b%[] - Bomb speed
 #;
 #;
 #; GAME STATES
@@ -188,7 +188,7 @@ ENDPROC
 #; *** ENTER STATE: SUBWAVE ***
 #; 
 DEFPROC sSubWave()
-timer = TIME:%c=%v:%d=%p(w)
+timer = TIME:%c=%v:%d=%a(w)
 ENDPROC
 #; 
 #; *** ENTER STATE: SUBWAVE ***
@@ -580,7 +580,7 @@ DEFPROC readData()
 DIM title$(30,18)
 RESTORE @Wave
 FOR %i=1 TO 30
-READ title$(%i),%p(i),%b(i)
+READ title$(%i),%a(i),%b(i)
 NEXT %i
 ENDPROC
 
