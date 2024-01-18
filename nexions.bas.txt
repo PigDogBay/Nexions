@@ -103,14 +103,15 @@ DEFPROC sTitle()
 PROC initGraphics()
 LOAD "title.sl2" LAYER
 DRIVER %49,%2,%2
-LAYER 0: PRINT #1; TAB 9;INK 2;"Fire To Start": LAYER 2,1
+LAYER 0: PRINT #1; TAB 9; INK 2;"Fire To Start": LAYER 2,1
+timer = TIME
 ENDPROC
 #; 
 #; *** STATE: TITLE ***
 #; 
 DEFPROC title()
-#; Flash press fire message
-
+proc star()
+SPRITE MOVE INT
 #; Fire to start game
 %i = INPUT 1| INPUT 0
 IF %i&$10 THEN PROC state(sStart)
@@ -533,6 +534,18 @@ SPRITE CONTINUE %52,%x TO %256 STEP %j RUN, %0 TO %y STEP %SGN{-k} RUN, %43,%3
 %j=%1+ RND 10
 %k=%10 - j
 SPRITE CONTINUE %53,%0 TO %x STEP % SGN {-j} RUN ,%y TO %192 STEP %k RUN ,%43,%3
+ENDPROC
+
+DEFPROC star()
+PRIVATE id=0
+IF TIME -timer < 5 THEN ENDPROC
+timer=TIME
+%j=% RND (20)-10:%k=% RND (20)-10
+IF %(j=0) AND (k=0) THEN ENDPROC
+%h=%40+RND(5)
+SPRITE id,%150+RND(20),%118+RND(20),%h,%1
+SPRITE CONTINUE id,%0 TO %319 STEP % SGN {j} RUN ,%0 TO %255 STEP % SGN {k} RUN ,%h,%3
+id+=1:IF id=10 THEN id=0
 ENDPROC
 
 #;
