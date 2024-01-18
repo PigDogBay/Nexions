@@ -7,20 +7,23 @@
 ;
 ; a%[] Sprite Pattern
 ; b%[] Difficulty
+; c%[] Formation
 ; %e[] Contains Formation Data
 ; X pos, Y Pos, xLower, xUpper xStep, yLower, yUpper, yStep
 ;
 RUN AT 3
 DIM pat(9,8)
+DIM title$(30,18)
+
 ;PROC unitTests()
 ;PROC display()
 ;PROC dump(1)
 
 PROC build()
 ;PROC dump(%2)
-CLEAR
-LOAD "data.bin" INT
-PROC display()
+;CLEAR
+;LOAD "data.bin" INT
+;PROC display()
 
 STOP
 
@@ -31,8 +34,11 @@ FOR %i=1 TO 10
     PROC readPattern()
     PROC convertPattern(%i)
 NEXT %i
+PROC readTitles()
 PRINT "Saving data.bin"
 SAVE "data.bin" INT
+PRINT "Saving titles.arr"
+SAVE "titles.arr" DATA title$()
 ENDPROC
 
 DEFPROC display()
@@ -86,11 +92,10 @@ NEXT %i
 
 ENDPROC
 
-DEFPROC readData()
-    DIM title$(30,18)
+DEFPROC readTitles()
     RESTORE @Wave
     FOR %i=1 TO 30
-        READ title$(%i),%a(i),%b(i)
+        READ title$(%i),%a(i),%b(i),%c(i)
     NEXT %i
 ENDPROC
 
@@ -398,33 +403,33 @@ DATA -0.5,0.5,1,-0.25,0.25,1:;9
 ; Name, Sprite pattern ID, difficulty, formation
 ;-----------------------------
 @Wave
-DATA "The Invasion",%12,%2
-DATA "Venusian Spiders",%62,%2
-DATA "Flagship",%16,%2
-DATA "Coa Monster",%26,%2
-DATA "Brain Wave",%22,%2
-DATA "Whoovians",%14,%3
-DATA "Sausage Time",%54,%3
-DATA "Nemesis",%10,%3
-DATA "Golden Age",%32,%3
-DATA "Brain Drain",%22,%3
-DATA "Full Spectrum",%56,%3
-DATA "RTM",%0,%3
-DATA "Little Acorns",%58,%4
-DATA "Squid Game",%6,%4
-DATA "Brain Freeze",%22,%4
-DATA "!#$! Q",%18,%4
-DATA "Scorpio",%30,%4
-DATA "Spectres",%20,%4
-DATA "Doh",%60,%4
-DATA "Doomed",%28,%5
-DATA "Space Lair",%24,%5
-DATA "Squids In",%6,%5
-DATA "Hydra",%30,%5
-DATA "My Gal",%32,%5
-DATA "Brainiac",%22,%6
-DATA "Convoy Charger",%16,%6
-DATA "Act Mooners",%26,%6
-DATA "Lord Eugene",%24,%6
-DATA "Big Ed",%60,%7
-DATA "Kill Screen",%28,%7
+DATA "The Invasion",%12,%2,%0
+DATA "Venusian Spiders",%62,%2,%5
+DATA "Flagship",%16,%2,%8
+DATA "Coa Monster",%26,%2,%0
+DATA "Brain Wave",%22,%2,%2
+DATA "Whoovians",%14,%3,%9
+DATA "Sausage Time",%54,%3,%10
+DATA "Nemesis",%10,%3,%0
+DATA "Golden Age",%32,%3,%7
+DATA "Brain Drain",%22,%3,%3
+DATA "Full Spectrum",%56,%3,%1
+DATA "RTM",%0,%3,%0
+DATA "Little Acorns",%58,%4,%6
+DATA "Squid Game",%6,%4,%0
+DATA "Brain Freeze",%22,%4,%7
+DATA "!#$! Q",%18,%4,%0
+DATA "Scorpio",%30,%4,%2
+DATA "Spectres",%20,%4,%0
+DATA "Doh",%60,%4,%3
+DATA "Doomed",%28,%5,%0
+DATA "Space Lair",%24,%5,%10
+DATA "Squids In",%6,%5,%1
+DATA "Hydra",%30,%5,%5
+DATA "My Gal",%32,%5,%8
+DATA "Brainiac",%22,%6,%10
+DATA "Convoy Charger",%16,%6,%9
+DATA "Act Mooners",%26,%6,%0
+DATA "Lord Eugene",%24,%6,%2
+DATA "Big Ed",%60,%7,%8
+DATA "Kill Screen",%28,%7,%9
