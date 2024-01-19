@@ -1,0 +1,69 @@
+#program dist
+#autoline 10,10
+#; Script to build a distribution binary 
+#; Navigate/cd to the nexions working directory
+#; Create Nexions.run directory
+#; Copy these files into Nexions.run:
+#;    ayfx.drv
+#;    data.bin
+#;    nexions.bas
+#;    Reactor.ch8
+#;    README.md
+#;    sfx.afb
+#;    sprites.spr
+#;    stars.sl2
+#;    title.sl2
+#;    titles.arr
+#;    
+#; Rename nexions.bas as run.bas
+#; You will then manually have to load run.bas and SAVE "run.bas" line 10
+#; On the PC copy the folder nexions.run and zip it up
+#; Add the zip as extra files to the GitHub release
+
+PRINT "Making folder nexions.run"
+MKDIR "nexions.run"
+
+PRINT "Copying files"
+COPY "ayfx.drv" TO "nexions.run/"
+copy "data.bin" TO "nexions.run/"
+copy "nexions.bas" TO "nexions.run/run.bas"
+copy "Reactor.ch8" TO "nexions.run/"
+copy "README.md" TO "nexions.run/"
+copy "sfx.afb" TO "nexions.run/"
+copy "sprites.spr" TO "nexions.run/"
+COPY "stars.sl2" TO "nexions.run/"
+COPY "title.sl2" TO "nexions.run/"
+COPY "titles.arr" TO "nexions.run/"
+
+PRINT "TO DO"
+PRINT "SAVE run.bas LINE 10"
+PRINT "Test by clicking on nexions.run from the Browser"
+PRINT "PC: Zip nexions.run"
+PRINT "PC: distribute!"
+CD "nexions.run"
+LOAD "run.bas"
+
+STOP
+
+#;Delete contents of nexions.run and the folder itself
+DEFPROC cleanUp()
+PRINT "Deleting nexions.run files"
+CD "nexions.run"
+ERASE "ayfx.drv"
+ERASE "data.bin"
+ERASE "run.bas"
+ERASE "Reactor.ch8"
+ERASE "README.md"
+ERASE "sfx.afb"
+ERASE "sprites.spr"
+ERASE "stars.sl2"
+ERASE "title.sl2"
+ERASE "titles.arr"
+ERASE "*.bak"
+CD ".."
+PRINT "Deleting nexions.run folder"
+RMDIR "nexions.run"
+ENDPROC
+
+STOP
+CLEAR:SAVE "dist.bas" LINE 10
