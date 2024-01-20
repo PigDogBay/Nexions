@@ -186,7 +186,8 @@ ENDPROC
 #; 
 DEFPROC sNewWave()
 %w+=1
-IF %w=51 THEN %w=1
+IF %w=51 THEN PROC killScreen():ENDPROC
+
 DRIVER %49,%2,%5
 #; Centre text
 %i=(29- LEN title$(%w)[>])/2
@@ -589,6 +590,44 @@ SPRITE CONTINUE %10+i,%e[j+2] TO %e[j+3] STEP %e[j+4] RUN ,%e[j+5] TO %e[j+6] ST
 NEXT %i
 ENDPROC
 
+
+DEFPROC killScreen()
+LOCAL m1$="What the hell is this?   "
+LOCAL m1b$="You're supposed to win, right? Where's your big fat reward???"
+LOCAL m2$="Unfortunately the Nexions have  escaped into the portal and are regrouping at Nexos VII."
+LOCAL m3$="This stinks like rotting meat!  Looks like you will have to     follow them into the portal."
+LOCAL m4$="Spread the word about Nexions."
+LOCAL m5$="      LETS HAVE PART II..."
+
+IF score > high THEN high=score: PROC saveHS(high)
+POKE 23607,%60
+LAYER 2,1: LAYER ERASE 0,0,256,192
+LAYER 0: BORDER 0: PAPER 0: INK 7: CLS :LAYER CLEAR: LAYER OVER 0
+SPRITE CLEAR
+PAUSE 50
+BORDER 7
+PAUSE 50
+PAPER 7: INK 0: CLS
+PRINT #1; CHR$ 127;" 2084 Nexions Research Ltd"
+PAUSE 100
+PROC printMessage(m1$):PAUSE 100: PROC printMessage(m1b$): PRINT :PRINT :PAUSE 100
+PROC printMessage(m2$):PRINT:PRINT:PAUSE 100
+PROC printMessage(m3$):PRINT:PRINT:PAUSE 100
+PROC printMessage(m4$):PRINT:PRINT:PAUSE 50
+PROC printMessage(m5$)
+POKE 23607,%$F9
+#; Fire to exit
+@wait: %i = INPUT 1| INPUT 0
+IF %i&$10 THEN PROC state(sTitle) :ELSE goto @wait
+ENDPROC
+
+DEFPROC printMessage(m$)
+LOCAL i
+FOR i=1 TO LEN m$
+PRINT m$(i);
+PAUSE 10
+NEXT i
+ENDPROC
 #;
 #; High Score Load/Save
 #;
