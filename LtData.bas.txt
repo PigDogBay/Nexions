@@ -454,30 +454,30 @@ DATA "!#$! Q",%18,%4,%0
 DATA "Scorpio",%30,%4,%2
 DATA "Spectres",%20,%4,%0
 DATA "Doh",%60,%4,%3
-DATA "Doomed",%28,%5,%0
-DATA "Space Lair",%24,%5,%10
-DATA "Squids In",%6,%5,%1
+DATA "Doomed",%28,%4,%0
+DATA "Space Lair",%24,%4,%10
+DATA "Squids In",%6,%4,%1
 DATA "Hydra",%30,%5,%5
 DATA "My Gal",%32,%5,%8
-DATA "Brainiac",%22,%6,%10
-DATA "Convoy Charger",%16,%6,%9
-DATA "Act Mooners",%26,%6,%0
-DATA "Lord Eugene",%24,%6,%2
-DATA "Big Ed",%60,%7,%8
-DATA "Rigel VII",%2,%7,%10
-DATA "Marsian Spiders",%62,%7,%3
-DATA "Sausage Fest",%54,%7,%0
-DATA "Jack's Finest",%10,%7,%4
-DATA "Corona Stem",%26,%7,%0
-DATA "Mojo Horner",%28,%7,%9
-DATA "Face Sucker",%6,%7,%1
-DATA "Arcadians",%16,%7,%2
-DATA "Snapper",%20,%7,%3
-DATA "Electron",%58,%7,%4
-DATA "Sphinx A",%60,%7,%5
-DATA "Ede Pit Nec",%30,%7,%6
-DATA "Shelob Spawn",%62,%7,%7
-DATA "Holly Bob",%34,%7,%8
+DATA "Brainiac",%22,%5,%10
+DATA "Convoy Charger",%16,%5,%9
+DATA "Act Mooners",%26,%5,%0
+DATA "Lord Eugene",%24,%5,%2
+DATA "Big Ed",%60,%5,%8
+DATA "Rigel VII",%2,%5,%10
+DATA "Marsian Spiders",%62,%5,%3
+DATA "Sausage Fest",%54,%5,%0
+DATA "Jack's Finest",%10,%5,%4
+DATA "Corona Stem",%26,%5,%0
+DATA "Mojo Horner",%28,%6,%9
+DATA "Face Sucker",%6,%6,%1
+DATA "Arcadians",%16,%6,%2
+DATA "Snapper",%20,%6,%3
+DATA "Electron",%58,%6,%4
+DATA "Sphinx A",%60,%6,%5
+DATA "Ede Pit Nec",%30,%6,%6
+DATA "Shelob Spawn",%62,%6,%7
+DATA "Holly Bob",%34,%6,%8
 DATA "Mr Pickle",%24,%7,%9
 DATA "Dead Flesh",%56,%7,%10
 DATA "Machine Code",%32,%7,%0
