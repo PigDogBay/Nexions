@@ -186,7 +186,7 @@ ENDPROC
 #; 
 DEFPROC sNewWave()
 %w+=1
-IF %w=31 THEN %w=1
+IF %w=51 THEN %w=1
 DRIVER %49,%2,%5
 #; Centre text
 %i=(29- LEN title$(%w)[>])/2

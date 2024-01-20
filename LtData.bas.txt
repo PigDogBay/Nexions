@@ -13,7 +13,7 @@
 ;
 RUN AT 3
 DIM pat(9,8)
-DIM title$(30,18)
+DIM title$(50,18)
 
 ;PROC unitTests()
 ;PROC display()
@@ -94,7 +94,7 @@ ENDPROC
 
 DEFPROC readTitles()
     RESTORE @Wave
-    FOR %i=1 TO 30
+    FOR %i=1 TO 50
         READ title$(%i),%a(i),%b(i),%c(i)
     NEXT %i
 ENDPROC
@@ -401,6 +401,36 @@ DATA -0.5,0.5,1,-0.25,0.25,1:;9
 ;
 ; WAVE DATA
 ; Name, Sprite pattern ID, difficulty, formation
+; 0  Manual Space ship
+; 2  One eyed alien
+; 4  Enemy bomb
+; 6  Squid
+; 8  Player ship
+; 10 Commodore
+; 12 Space invader
+; 14 Tardis
+; 16 Galaxian
+; 18 Q-Bert
+; 20 Blinky
+; 22 Brain
+; 24 Eugene
+; 26 Moon Cresta
+; 28 Cacodemon
+; 30 Scoprion
+; 32 Galaga
+; 34 Holly Monster
+; 36 Missile
+; 38 Spider bomb
+; 40-44 Stars
+; 45 Empty
+; 46 Mothership
+; 48-53 player explosion
+; 54 Mr Sausage
+; 56 Spectrum flash
+; 58 Acorn Electron
+; 60 Head
+; 62 Purple Spider
+; 
 ;-----------------------------
 @Wave
 DATA "The Invasion",%12,%2,%0
@@ -413,8 +443,10 @@ DATA "Sausage Time",%54,%3,%10
 DATA "Nemesis",%10,%3,%0
 DATA "Golden Age",%32,%3,%7
 DATA "Brain Drain",%22,%3,%3
+DATA "Kang & Kodos",%2,%3,%0
 DATA "Full Spectrum",%56,%3,%1
 DATA "RTM",%0,%3,%0
+DATA "Holly Monster",%34,%4,%7
 DATA "Little Acorns",%58,%4,%6
 DATA "Squid Game",%6,%4,%0
 DATA "Brain Freeze",%22,%4,%7
@@ -432,4 +464,23 @@ DATA "Convoy Charger",%16,%6,%9
 DATA "Act Mooners",%26,%6,%0
 DATA "Lord Eugene",%24,%6,%2
 DATA "Big Ed",%60,%7,%8
-DATA "Kill Screen",%28,%7,%9
+DATA "Rigel VII",%2,%7,%10
+DATA "Marsian Spiders",%62,%7,%3
+DATA "Sausage Fest",%54,%7,%0
+DATA "Jack's Finest",%10,%7,%4
+DATA "Corona Stem",%26,%7,%0
+DATA "Mojo Horner",%28,%7,%9
+DATA "Face Sucker",%6,%7,%1
+DATA "Arcadians",%16,%7,%2
+DATA "Snapper",%20,%7,%3
+DATA "Electron",%58,%7,%4
+DATA "Sphinx A",%60,%7,%5
+DATA "Ede Pit Nec",%30,%7,%6
+DATA "Shelob Spawn",%62,%7,%7
+DATA "Holly Bob",%34,%7,%8
+DATA "Mr Pickle",%24,%7,%9
+DATA "Dead Flesh",%56,%7,%10
+DATA "Machine Code",%32,%7,%0
+DATA "Vote Alien!",%2,%7,%1
+DATA "Kill Screen",%28,%7,%2
+
