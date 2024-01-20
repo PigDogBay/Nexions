@@ -537,7 +537,7 @@ IF %g=10 THEN ENDPROC
 
 #;More chance of dropping bomb closer to enemy
 IF %x>i THEN %k=%x-i:ELSE %k=%i-x
-IF %b(w) < RND (k+75) THEN ENDPROC
+IF %b(w) < RND (k+60) THEN ENDPROC
 %j = SPRITE AT (%g,%1)
 SPRITE %h,%i,%j,%5,%1
 SPRITE CONTINUE %h,,%0 TO 225 STEP %b[w] RUN ,%5,%3

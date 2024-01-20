@@ -434,18 +434,18 @@ DATA -0.5,0.5,1,-0.25,0.25,1:;9
 ;-----------------------------
 @Wave
 DATA "The Invasion",%12,%2,%0
-DATA "Venusian Spiders",%62,%2,%5
-DATA "Flagship",%16,%2,%8
-DATA "Coa Monster",%26,%2,%0
-DATA "Brain Wave",%22,%2,%2
-DATA "Whoovians",%14,%3,%9
-DATA "Sausage Time",%54,%3,%10
-DATA "Nemesis",%10,%3,%0
-DATA "Golden Age",%32,%3,%7
-DATA "Brain Drain",%22,%3,%3
-DATA "Kang & Kodos",%2,%3,%0
-DATA "Full Spectrum",%56,%3,%1
-DATA "RTM",%0,%3,%0
+DATA "Venusian Spiders",%62,%3,%5
+DATA "Flagship",%16,%3,%8
+DATA "Coa Monster",%26,%3,%0
+DATA "Brain Wave",%22,%3,%2
+DATA "Whoovians",%14,%4,%9
+DATA "Sausage Time",%54,%4,%10
+DATA "Nemesis",%10,%4,%0
+DATA "Golden Age",%32,%4,%7
+DATA "Brain Drain",%22,%4,%3
+DATA "Kang & Kodos",%2,%4,%0
+DATA "Full Spectrum",%56,%4,%1
+DATA "RTM",%0,%4,%0
 DATA "Holly Monster",%34,%4,%7
 DATA "Little Acorns",%58,%4,%6
 DATA "Squid Game",%6,%4,%0
