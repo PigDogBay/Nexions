@@ -479,7 +479,7 @@ DEFPROC destroyEnemy(%s,%b)
 PROC bang(%i,%j)
 SPRITE %s,%0,%0,%0,%0: SPRITE %b,%0,%0,%0,%0
 #;Spider bomb 
-IF %s=20: score+=500: DRIVER %49,%2,%3
+IF %s=20: score+=500: DRIVER %49,%2,%1
 #;Mothership 
 ELSE IF %s=10:score+=250: DRIVER %49,%2,%1
 #;Decrease normal enemy count
