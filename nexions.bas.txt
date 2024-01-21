@@ -71,7 +71,9 @@
 #; 20 - Spider bomb
 #; 21-29 - Enemy Bombs
 #; 50-53 - Enemy explosions
-#; 
+#; 54 - Enemy Fire ball explosion anim
+#; 60 - Title screen
+#; 80-119 - Title screen stars
 #; 
 
 RUN AT 3
@@ -473,11 +475,7 @@ ENDPROC
 #; *** DESTROY ENEMY ***
 #; 
 DEFPROC destroyEnemy(%s,%b)
-#; Get enemy x,y pos
-%i=SPRITE AT (%s,0)
-%j= SPRITE AT (%s,1)
-PROC bang(%i,%j)
-SPRITE %s,%0,%0,%0,%0: SPRITE %b,%0,%0,%0,%0
+PROC kill(%s,%21):SPRITE %b,%0,%0,%0,%0
 #;Spider bomb 
 IF %s=20: score+=500: DRIVER %49,%2,%1
 #;Mothership 
@@ -485,7 +483,6 @@ ELSE IF %s=10:score+=250: DRIVER %49,%2,%1
 #;Decrease normal enemy count
 ELSE:%c-=%1:score+=50
 ENDIF
-DRIVER %49,%2,%21
 PROC score()
 ENDPROC
 
@@ -522,7 +519,7 @@ ENDPROC
 DEFPROC bomb()
 %g=%e+10:%h=%e+20:%e+=1: IF %e=10 THEN %e=%0
 #;Deal with spider bomb
-IF %f=1 THEN SPRITE %20,%0,%0,%0,%0:DRIVER %49,%2,%35
+IF %f=1 THEN PROC kill(%20,%35)
 IF %f>0 THEN %f-=1
  
 #; Check if there is an enemy
@@ -548,6 +545,17 @@ ELSE SPRITE CONTINUE %h,%0 TO %255 STEP -1 RUN,%0 TO 225 STEP %b[w] RUN ,%5,%3
 ENDIF
 DRIVER %49,%2,38
 ENDPROC 
+
+DEFPROC kill(%s,%m)
+#; Get x,y co-ords
+%i = SPRITE AT (%s,%0) : %j=SPRITE AT (%s,%1)
+#;Show explosion patterns
+#;Patterns 51 to 53
+#;Flags Disable when reach limit and update when stationary
+#;Rate every 10 calls, delay 0
+SPRITE %s,%0,%0,%0,%0:SPRITE %54,%i,%j,%51,%1:SPRITE CONTINUE %54,,,%51 TO %53,$60,%3,%0
+DRIVER %49,%2,%m:PROC bang(%i,%j)
+ENDPROC
 
 #;
 #; Defender style explosion for enemies
