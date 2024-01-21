@@ -231,7 +231,7 @@ IF ( TIME -timer) < 25 THEN ENDPROC
 IF %c(w)=0 THEN PROC rndFormation(): ELSE PROC formation(%c(w))
 
 #; Mother ship appears after random delay
-SPRITE %10,%16,%32,%45,%1
+SPRITE %10,%16,%32,%45,%1 : %f=0
 SPRITE CONTINUE %10,%0 TO %319 STEP %2 RUN ,,%45,%3,,%20+ RND (100)
 %v+=2: IF %v>9 THEN %v=%5
 PROC state(sGame)  
@@ -476,8 +476,8 @@ ENDPROC
 #; 
 DEFPROC destroyEnemy(%s,%b)
 PROC kill(%s,%21):SPRITE %b,%0,%0,%0,%0
-#;Spider bomb 
-IF %s=20: score+=500: DRIVER %49,%2,%1
+#;Spider bomb, set %f=0 to disable counter
+IF %s=20: score+=500: %f=0:DRIVER %49,%2,%1
 #;Mothership 
 ELSE IF %s=10:score+=250: DRIVER %49,%2,%1
 #;Decrease normal enemy count
@@ -500,6 +500,7 @@ DEFPROC clearBombs()
 FOR %i=%20 TO %29
 SPRITE %i,%0,%0,%0,%0
 NEXT %i
+%f=0
 ENDPROC
 
 #; 
