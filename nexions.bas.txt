@@ -166,7 +166,7 @@ ENDPROC
 #; 
 DEFPROC sWave():
 PROC clearEnemies(): SPRITE %0,%x,%y,%9,%1
-IF score > extra THEN lives+=1:extra+=20000: PROC lives():DRIVER %49,%2,%7
+IF score > extra THEN lives+=1:extra+=20000: PROC lives():DRIVER %49,%2,%47
 ENDPROC
 #; 
 #; *** ENTER STATE: WAVE ***
@@ -325,7 +325,7 @@ timer = TIME
 LAYER %0: PRINT AT %10,%12;"Game Over"
 LAYER %2,%1
 DRIVER %49,%2,%56
-IF score > high THEN high=score: DRIVER %49,%2,%6:PROC saveHS(high)
+IF score > high THEN high=score: DRIVER %49,%2,%7:PROC saveHS(high)
 PROC hiScore()
 ENDPROC
 #; 
