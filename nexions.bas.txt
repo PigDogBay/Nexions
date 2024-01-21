@@ -543,8 +543,8 @@ IF %b(w) < RND (k+75) THEN ENDPROC
 SPRITE %h,%i,%j,%5,%1
 #; Aim Bomb at player if x-pos is far away
 IF %k<40 : SPRITE CONTINUE %h,,%0 TO 225 STEP %b[w] RUN ,%5,%3
-ELSE IF %x > i :SPRITE CONTINUE %h,%0 TO %x STEP %1 RUN,%0 TO 225 STEP %b[w] RUN ,%5,%3
-ELSE SPRITE CONTINUE %h,%x TO %225 STEP -1 RUN,%0 TO 225 STEP %b[w] RUN ,%5,%3
+ELSE IF %x > i :SPRITE CONTINUE %h,%0 TO 255 STEP %1 RUN,%0 TO 225 STEP %b[w] RUN ,%5,%3
+ELSE SPRITE CONTINUE %h,%0 TO %255 STEP -1 RUN,%0 TO 225 STEP %b[w] RUN ,%5,%3
 ENDIF
 DRIVER %49,%2,38
 ENDPROC 
