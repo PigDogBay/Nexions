@@ -532,7 +532,7 @@ IF % NOT SPRITE g OR SPRITE h THEN ENDPROC
 #;Drop a spider bomb
 #;Bounce between <160-225 
 %j=%w*2+100:IF %j>160 THEN %j=%160
-IF %g=10 AND (w>3) AND (i>300) THEN SPRITE %h,%i,32,%39,%1:SPRITE CONTINUE %h,%32 to %255 STEP -RND(4) RUN,%j TO %225 STEP %(w>>4+3) RUN,%38 TO %39,%0: %f=%(6*w+200):ENDPROC
+IF %g=10 AND (w>3) AND (i>300) THEN SPRITE %h,%i,32,%39,%1:SPRITE CONTINUE %h,%32 to %255 STEP -RND(4) RUN,%j TO %225 STEP %(w>>4+3) RUN,%38 TO %39,%0: %f=%(6*w+200):DRIVER %49,%2,%39:ENDPROC
 IF %g=10 THEN ENDPROC
 
 #; More chance of dropping bomb closer to enemy
@@ -543,8 +543,9 @@ SPRITE %h,%i,%j,%5,%1
 #; Aim Bomb at player if x-pos is far away
 IF %k<40 : SPRITE CONTINUE %h,,%0 TO 225 STEP %b[w] RUN ,%5,%3
 ELSE IF %x > i :SPRITE CONTINUE %h,%0 TO %x STEP %1 RUN,%0 TO 225 STEP %b[w] RUN ,%5,%3
-ELSE IF %x < i : SPRITE CONTINUE %h,%x TO %225 STEP -1 RUN,%0 TO 225 STEP %b[w] RUN ,%5,%3
+ELSE SPRITE CONTINUE %h,%x TO %225 STEP -1 RUN,%0 TO 225 STEP %b[w] RUN ,%5,%3
 ENDIF
+DRIVER %49,%2,38
 ENDPROC 
 
 #;
