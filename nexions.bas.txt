@@ -324,6 +324,7 @@ DEFPROC sGameOver()
 timer = TIME
 LAYER %0: PRINT AT %10,%12;"Game Over"
 LAYER %2,%1
+DRIVER %49,%2,%56
 IF score > high THEN high=score: DRIVER %49,%2,%6:PROC saveHS(high)
 PROC hiScore()
 ENDPROC
@@ -478,7 +479,7 @@ DEFPROC destroyEnemy(%s,%b)
 PROC bang(%i,%j)
 SPRITE %s,%0,%0,%0,%0: SPRITE %b,%0,%0,%0,%0
 #;Spider bomb 
-IF %s=20: score+=500: DRIVER %49,%2,%1
+IF %s=20: score+=500: DRIVER %49,%2,%34
 #;Mothership 
 ELSE IF %s=10:score+=250: DRIVER %49,%2,%1
 #;Decrease normal enemy count
@@ -521,7 +522,7 @@ ENDPROC
 DEFPROC bomb()
 %g=%e+10:%h=%e+20:%e+=1: IF %e=10 THEN %e=%0
 #;Deal with spider bomb
-IF %f=1 THEN SPRITE %20,%0,%0,%0,%0
+IF %f=1 THEN SPRITE %20,%0,%0,%0,%0:DRIVER %49,%2,%35
 IF %f>0 THEN %f-=1
  
 #; Check if there is an enemy
