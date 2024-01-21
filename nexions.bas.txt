@@ -536,7 +536,7 @@ IF %g=10 THEN ENDPROC
 
 #; More chance of dropping bomb closer to enemy
 IF %x>i THEN %k=%x-i:ELSE %k=%i-x
-IF %b(w) < RND (k+75) THEN ENDPROC
+IF %b(w) < RND (k+150) THEN ENDPROC
 %j = SPRITE AT (%g,%1)
 SPRITE %h,%i,%j,%5,%1
 #; Aim Bomb at player if x-pos is far away
