@@ -232,7 +232,7 @@ IF %c(w)=0 THEN PROC rndFormation(): ELSE PROC formation(%c(w))
 
 #; Mother ship appears after random delay
 SPRITE %10,%16,%32,%45,%1
-SPRITE CONTINUE %10,%0 TO %319 STEP %2 RUN ,,%45,%11,,%20+ RND (100)
+SPRITE CONTINUE %10,%0 TO %319 STEP %2 RUN ,,%45,%3,,%20+ RND (100)
 %v+=2: IF %v>9 THEN %v=%5
 PROC state(sGame)  
 ENDPROC
