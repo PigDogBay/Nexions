@@ -196,7 +196,7 @@ DRIVER %49,%2,%5
 LAYER %0: PRINT AT %10,%i;%w;". ";title$(%w)
 IF bonus<0 THEN bonus = 50
 IF %w > 1 THEN PRINT AT %0,%6; INK 6;"+";bonus
-score+=bonus:bonus=1000
+score+=bonus:bonus=1000+(%w*50)
 LAYER %2,%1
 ENDPROC
 #; 
